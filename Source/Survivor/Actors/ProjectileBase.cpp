@@ -9,8 +9,8 @@
 // Sets default values
 AProjectileBase::AProjectileBase()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+	InitialLifeSpan = 5.0f;
 
 	StaticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComp");
 	RootComponent = StaticMeshComp;
@@ -29,21 +29,4 @@ void AProjectileBase::BeginPlay()
 
 	// ignore caster collision
 	StaticMeshComp->IgnoreActorWhenMoving(GetInstigator(), true);
-}
-
-void AProjectileBase::OnLifeTimeout()
-{
-}
-
-// Called every frame
-void AProjectileBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	ElapseTime += DeltaTime;
-	if (ElapseTime >= LifeTime)
-	{
-		OnLifeTimeout();
-		Destroy();
-	}
 }

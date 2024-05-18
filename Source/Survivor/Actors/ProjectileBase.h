@@ -14,26 +14,15 @@ class SURVIVOR_API AProjectileBase : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AProjectileBase();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void OnLifeTimeout();
 
 private:
-	UPROPERTY(VisibleAnywhere, Category=survivor, Category=survivor, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMeshComp;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=survivor, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* MovementComp;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
-	float LifeTime{5.0f};
-
-	float ElapseTime{};
 };
