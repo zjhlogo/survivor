@@ -5,5 +5,5 @@
 
 bool USurvivorBaseAbility::IsPassive() const
 {
-	return IsPassiveAbility;
+	return bIsPassiveAbility;
 }

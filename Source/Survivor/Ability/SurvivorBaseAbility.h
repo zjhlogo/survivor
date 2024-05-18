@@ -19,6 +19,6 @@ public:
 	bool IsPassive() const;
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Ability, meta = (AllowPrivateAccess = "true"))
-	bool IsPassiveAbility{};
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	bool bIsPassiveAbility{};
 };

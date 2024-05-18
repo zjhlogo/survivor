@@ -1,0 +1,55 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "LineBulletAbility.h"
+
+#include "Survivor/Actors/ProjectileBase.h"
+
+void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
+                                         const FGameplayAbilityActorInfo* ActorInfo,
+                                         const FGameplayAbilityActivationInfo ActivationInfo,
+                                         const FGameplayEventData* TriggerEventData)
+{
+	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+
+	AActor* Actor = GetAvatarActorFromActorInfo();
+	if (!Actor)
+	{
+		return;
+	}
+
+	UWorld* World = GWorld->GetWorld();
+	if (!World)
+	{
+		return;
+	}
+	double CurrTime = World->GetTimeSeconds();
+
+	int NumBulletToFire = LineCount;
+	double OffsetRotation = 0.0;
+	if (bRotate)
+	{
+		// calculate new OffsetRotation
+		double ElapseTime = CurrTime - LastFireTime;
+		OffsetRotation = RotateSpeedInDegree * ElapseTime;
+	}
+
+	double StepRotation = 360.0 / NumBulletToFire;
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.Instigator = Cast<APawn>(Actor);
+
+	FVector ActorPos = Actor->GetActorLocation();
+	FRotator ActorRot = Actor->GetActorRotation();
+	for (int i = 0; i < NumBulletToFire; ++i)
+	{
+		FTransform SpawnTrans = FTransform(ActorRot + FRotator(0.0, OffsetRotation + StepRotation * i, 0.0), ActorPos);
+		// spawn bullet
+		World->SpawnActor<AProjectileBase>(BulletClass, SpawnTrans, SpawnParams);
+	}
+
+	LastFireTime = CurrTime;
+
+	CommitAbilityCooldown(Handle, ActorInfo, ActivationInfo, false);
+}
