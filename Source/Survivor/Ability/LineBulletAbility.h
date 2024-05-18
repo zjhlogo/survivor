@@ -36,6 +36,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true", EditCondition="bRotate"))
 	double RotateSpeedInDegree{45.0};
-
-	double LastFireTime{};
 };

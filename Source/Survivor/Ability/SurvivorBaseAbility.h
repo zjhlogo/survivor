@@ -15,6 +15,8 @@ class SURVIVOR_API USurvivorBaseAbility : public UGameplayAbility
 	GENERATED_BODY()
 
 public:
+	USurvivorBaseAbility();
+	
 	UFUNCTION()
 	bool IsPassive() const;
 

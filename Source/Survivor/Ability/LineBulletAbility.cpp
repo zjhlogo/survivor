@@ -23,14 +23,13 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 	{
 		return;
 	}
-	double CurrTime = World->GetTimeSeconds();
-
+	
 	int NumBulletToFire = LineCount;
 	double OffsetRotation = 0.0;
 	if (bRotate)
 	{
 		// calculate new OffsetRotation
-		double ElapseTime = CurrTime - LastFireTime;
+		double ElapseTime = FMath::Fmod(World->GetTimeSeconds(), 360.0);
 		OffsetRotation = RotateSpeedInDegree * ElapseTime;
 	}
 
@@ -48,8 +47,6 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 		// spawn bullet
 		World->SpawnActor<AProjectileBase>(BulletClass, SpawnTrans, SpawnParams);
 	}
-
-	LastFireTime = CurrTime;
 
 	CommitAbilityCooldown(Handle, ActorInfo, ActivationInfo, false);
 }

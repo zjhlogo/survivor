@@ -3,6 +3,12 @@
 
 #include "SurvivorBaseAbility.h"
 
+USurvivorBaseAbility::USurvivorBaseAbility()
+{
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+	bRetriggerInstancedAbility = true;
+}
+
 bool USurvivorBaseAbility::IsPassive() const
 {
 	return bIsPassiveAbility;
