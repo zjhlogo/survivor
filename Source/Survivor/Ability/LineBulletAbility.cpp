@@ -41,10 +41,9 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 	SpawnParams.Instigator = Cast<APawn>(Actor);
 
 	FVector ActorPos = Actor->GetActorLocation();
-	FRotator ActorRot = Actor->GetActorRotation();
 	for (int i = 0; i < NumBulletToFire; ++i)
 	{
-		FTransform SpawnTrans = FTransform(ActorRot + FRotator(0.0, OffsetRotation + StepRotation * i, 0.0), ActorPos);
+		FTransform SpawnTrans = FTransform(FRotator(0.0, OffsetRotation + StepRotation * i, 0.0), ActorPos);
 		// spawn bullet
 		World->SpawnActor<AProjectileBase>(BulletClass, SpawnTrans, SpawnParams);
 	}
