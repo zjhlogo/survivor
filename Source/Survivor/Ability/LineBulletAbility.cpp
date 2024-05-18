@@ -18,7 +18,7 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 		return;
 	}
 
-	UWorld* World = GWorld->GetWorld();
+	UWorld* World = GetWorld();
 	if (!World)
 	{
 		return;
@@ -37,6 +37,7 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.Owner = Actor;
 	SpawnParams.Instigator = Cast<APawn>(Actor);
 
 	FVector ActorPos = Actor->GetActorLocation();

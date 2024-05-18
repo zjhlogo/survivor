@@ -16,11 +16,11 @@ class SURVIVOR_API USurvivorBaseAbility : public UGameplayAbility
 
 public:
 	USurvivorBaseAbility();
-	
+
 	UFUNCTION()
 	bool IsPassive() const;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
-	bool bIsPassiveAbility{};
+	uint8 bIsPassiveAbility : 1;
 };

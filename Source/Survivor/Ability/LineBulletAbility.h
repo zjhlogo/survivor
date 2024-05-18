@@ -20,7 +20,7 @@ public:
 	                             const FGameplayAbilityActorInfo* ActorInfo,
 	                             const FGameplayAbilityActivationInfo ActivationInfo,
 	                             const FGameplayEventData* TriggerEventData) override;
-	
+
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AProjectileBase> BulletClass;
@@ -32,7 +32,7 @@ private:
 	int LineCount{1};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
-	bool bRotate{};
+	uint8 bRotate : 1;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true", EditCondition="bRotate"))
 	double RotateSpeedInDegree{45.0};
