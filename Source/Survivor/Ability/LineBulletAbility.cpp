@@ -12,6 +12,7 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
+	// spawn bullets
 	AActor* Actor = GetAvatarActorFromActorInfo();
 	if (!Actor)
 	{
@@ -30,7 +31,7 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 	{
 		// calculate new OffsetRotation
 		double ElapseTime = FMath::Fmod(World->GetTimeSeconds(), 360.0);
-		OffsetRotation = RotateSpeedInDegree * ElapseTime;
+		OffsetRotation = RotateSpeed * ElapseTime;
 	}
 
 	double StepRotation = 360.0 / NumBulletToFire;

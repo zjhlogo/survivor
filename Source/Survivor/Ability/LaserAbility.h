@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "SurvivorBaseAbility.h"
-#include "LineBulletAbility.generated.h"
+#include "LaserAbility.generated.h"
 
-class AProjectileBase;
+class ALaserBase;
 /**
  * 
  */
 UCLASS()
-class SURVIVOR_API ULineBulletAbility : public USurvivorBaseAbility
+class SURVIVOR_API ULaserAbility : public USurvivorBaseAbility
 {
 	GENERATED_BODY()
 
@@ -21,9 +21,15 @@ public:
 	                             const FGameplayAbilityActivationInfo ActivationInfo,
 	                             const FGameplayEventData* TriggerEventData) override;
 
+	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle,
+	                        const FGameplayAbilityActorInfo* ActorInfo,
+	                        const FGameplayAbilityActivationInfo ActivationInfo,
+	                        bool bReplicateEndAbility,
+	                        bool bWasCancelled) override;
+
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AProjectileBase> BulletClass;
+	TSubclassOf<ALaserBase> LaserClass;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true", ClampMin = "1", ClampMax = "5"))
 	int LineCount{1};
@@ -33,4 +39,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true", EditCondition="bRotate"))
 	double RotateSpeed{45.0};
+
+	UPROPERTY()
+	TArray<ALaserBase*> SpawnedLaserList;
 };
