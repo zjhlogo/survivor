@@ -40,6 +40,7 @@ void ULaserAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 		// spawn laser
 		ALaserBase* Laser = World->SpawnActor<ALaserBase>(LaserClass, SpawnTrans, SpawnParams);
 		Laser->SetAutoRotateParameter(bRotate, StepRotation * i, RotateSpeed);
+		Laser->SetLaserBeamMaxLength(LaserBeamMaxLength);
 		SpawnedLaserList.Add(Laser);
 	}
 

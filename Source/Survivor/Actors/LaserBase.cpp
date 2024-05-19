@@ -47,6 +47,11 @@ void ALaserBase::SetAutoRotateParameter(bool bRot, double OffsetRot, double RotS
 	RotateSpeed = RotSpeed;
 }
 
+void ALaserBase::SetLaserBeamMaxLength(double MaxLength)
+{
+	LaserBeamMaxLength = MaxLength;
+}
+
 // Called when the game starts or when spawned
 void ALaserBase::BeginPlay()
 {

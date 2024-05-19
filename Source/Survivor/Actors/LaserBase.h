@@ -17,6 +17,10 @@ public:
 
 	void SetAutoRotateParameter(bool bRot, double OffsetRot, double RotSpeed);
 
+	void SetLaserBeamMaxLength(double MaxLength);
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE double GetLaserBeamMaxLength() const { return LaserBeamMaxLength; }
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -24,4 +28,5 @@ private:
 	uint8 bRotate : 1;
 	double OffsetRotation{};
 	double RotateSpeed{45.0};
+	double LaserBeamMaxLength{300.0};
 };
