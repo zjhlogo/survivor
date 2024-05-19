@@ -55,7 +55,10 @@ void ULaserAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 	// remove laser beams
 	for (ALaserBase* Laser : SpawnedLaserList)
 	{
-		Laser->Destroy();
+		if (Laser)
+		{
+			Laser->Destroy();
+		}
 	}
 	SpawnedLaserList.Empty();
 
