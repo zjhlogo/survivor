@@ -4,6 +4,7 @@
 #include "ProjectileBase.h"
 
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Survivor/Util/SurvivorDefine.h"
 
 
 // Sets default values
@@ -12,10 +13,12 @@ AProjectileBase::AProjectileBase()
 	PrimaryActorTick.bCanEverTick = false;
 	InitialLifeSpan = 5.0f;
 
-	StaticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComp");
+	StaticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComp"));
 	RootComponent = StaticMeshComp;
+	StaticMeshComp->SetCollisionProfileName(USurvivorDefine::CollisionProfileProjectile);
+	StaticMeshComp->CanCharacterStepUpOn = ECB_No;
 
-	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComp");
+	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
 	MovementComp->InitialSpeed = 1000.0f;
 	MovementComp->ProjectileGravityScale = 0.0f;
 	MovementComp->bRotationFollowsVelocity = true;

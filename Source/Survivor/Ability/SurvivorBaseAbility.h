@@ -18,7 +18,7 @@ public:
 	USurvivorBaseAbility();
 
 	UFUNCTION()
-	bool IsPassive() const;
+	FORCEINLINE bool IsPassive() const { return bIsPassiveAbility; }
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))

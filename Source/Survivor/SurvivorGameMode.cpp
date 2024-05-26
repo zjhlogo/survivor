@@ -1,8 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SurvivorGameMode.h"
-#include "SurvivorPlayerController.h"
-#include "SurvivorCharacter.h"
+#include "Character/SurvivorPlayerController.h"
+#include "Character/SurvivorCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ASurvivorGameMode::ASurvivorGameMode()
