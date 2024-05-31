@@ -5,7 +5,7 @@
 
 #include "GameplayEffectExtension.h"
 #include "GameplayEffectTypes.h"
-#include "Survivor/Util/Debug.h"
+#include "../Util/DebugUtil.h"
 
 void UBaseAttribute::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
@@ -18,7 +18,7 @@ bool UBaseAttribute::OnPostGameplayEffectExecute(const FGameplayEffectModCallbac
 	if (Data.EvaluatedData.Attribute == GetHpAttribute())
 	{
 		SetHp(FMath::Clamp(GetHp(), 0.0f, GetMaxHp()));
-		UDebug::PrintOnScreen(TEXT("{0}.Hp={1}"), GetOwningActor()->GetActorNameOrLabel(), GetHp());
+		PRINT_R("{0}.Hp={1}", GetOwningActor()->GetActorNameOrLabel(), GetHp());
 	}
 	else
 	{

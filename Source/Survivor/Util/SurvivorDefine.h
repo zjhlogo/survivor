@@ -3,17 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Object.h"
-#include "SurvivorDefine.generated.h"
 
 /**
  * 
  */
-UCLASS()
-class SURVIVOR_API USurvivorDefine : public UObject
+class FSurvivorDefine
 {
-	GENERATED_BODY()
-
 public:
 	inline static const FName CollisionProfileCharacter{TEXT("Pawn")};
 	inline static const FName CollisionProfileEnemy{TEXT("Enemy")};

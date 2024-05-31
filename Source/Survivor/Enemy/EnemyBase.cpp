@@ -13,7 +13,7 @@ AEnemyBase::AEnemyBase()
 
 	Collision = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collision"));
 	RootComponent = Collision;
-	Collision->SetCollisionProfileName(USurvivorDefine::CollisionProfileEnemy);
+	Collision->SetCollisionProfileName(FSurvivorDefine::CollisionProfileEnemy);
 	Collision->CanCharacterStepUpOn = ECB_No;
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));

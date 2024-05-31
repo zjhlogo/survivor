@@ -17,7 +17,7 @@ AProjectileBase::AProjectileBase()
 
 	StaticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComp"));
 	RootComponent = StaticMeshComp;
-	StaticMeshComp->SetCollisionProfileName(USurvivorDefine::CollisionProfileProjectile);
+	StaticMeshComp->SetCollisionProfileName(FSurvivorDefine::CollisionProfileProjectile);
 	StaticMeshComp->CanCharacterStepUpOn = ECB_No;
 
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
