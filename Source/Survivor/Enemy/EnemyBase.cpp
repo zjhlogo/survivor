@@ -6,7 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Survivor/Hud/HealthBarWidget.h"
+#include "Survivor/Attributes/BaseAttributeComponent.h"
+#include "Survivor/Hud/SurvivorWidgetBase.h"
 #include "Survivor/Util/SurvivorDefine.h"
 
 AEnemyBase::AEnemyBase()
@@ -21,27 +22,22 @@ AEnemyBase::AEnemyBase()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(RootComponent);
 
-	HealthBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBar"));
-	HealthBar->SetupAttachment(RootComponent);
-	
+	HealthBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBarWidget"));
+	HealthBarWidget->SetupAttachment(RootComponent);
+
 	// Create ASC
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
 	AbilitySystem->SetOwnerActor(this);
-}
 
-void AEnemyBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	BaseAttributeCom = CreateDefaultSubobject<UBaseAttributeComponent>(TEXT("BaseAttributeCom"));
 }
 
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// bind event
-	UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(HealthBar->GetWidget());
-	if (ensure(HealthBarWidget))
+	if (USurvivorWidgetBase* WidgetBase = Cast<USurvivorWidgetBase>(HealthBarWidget->GetWidget()))
 	{
-		HealthBarWidget->BindEvents(this);
+		WidgetBase->OnBindEvent(this);
 	}
 }

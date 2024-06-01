@@ -7,11 +7,10 @@
 #include "EnemyBase.generated.h"
 
 class UWidgetComponent;
+class UBaseAttributeComponent;
 class UCapsuleComponent;
 class USkeletalMeshComponent;
 class UAbilitySystemComponent;
-
-DECLARE_MULTICAST_DELEGATE_TwoParams(FHpChanged, float, float);
 
 UCLASS()
 class SURVIVOR_API AEnemyBase : public AActor
@@ -20,14 +19,13 @@ class SURVIVOR_API AEnemyBase : public AActor
 
 public:
 	AEnemyBase();
-	virtual void Tick(float DeltaTime) override;
-
-	UAbilitySystemComponent* GetAbilitySystem() const { return AbilitySystem; }
-
-	FHpChanged OnHpChanged;
 
 protected:
 	virtual void BeginPlay() override;
+
+public:
+	UPROPERTY()
+	UBaseAttributeComponent* BaseAttributeCom;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -41,5 +39,5 @@ private:
 	UAbilitySystemComponent* AbilitySystem{};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
-	UWidgetComponent* HealthBar{};
+	UWidgetComponent* HealthBarWidget{};
 };

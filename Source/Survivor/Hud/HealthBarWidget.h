@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "SurvivorWidgetBase.h"
 #include "HealthBarWidget.generated.h"
 
 class AEnemyBase;
@@ -13,16 +13,17 @@ class UProgressBar;
  * 
  */
 UCLASS()
-class SURVIVOR_API UHealthBarWidget : public UUserWidget
+class SURVIVOR_API UHealthBarWidget : public USurvivorWidgetBase
 {
 	GENERATED_BODY()
 
 public:
-	void BindEvents(AEnemyBase* EnemyActor);
+	virtual void OnBindEvent(AActor* OwnerActor) override;
 
 private:
 	void OnHpChanged(float CurrHp, float MaxHp);
 
+private:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UProgressBar> PbrHealthBar;
 };

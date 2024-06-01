@@ -4,11 +4,24 @@
 #include "HealthBarWidget.h"
 
 #include "Components/ProgressBar.h"
-#include "Survivor/Enemy/EnemyBase.h"
+#include "Survivor/Attributes/BaseAttributeComponent.h"
 
-void UHealthBarWidget::BindEvents(AEnemyBase* EnemyActor)
+void UHealthBarWidget::OnBindEvent(AActor* OwnerActor)
 {
-	EnemyActor->OnHpChanged.AddUObject(this, &UHealthBarWidget::OnHpChanged);
+	Super::OnBindEvent(OwnerActor);
+
+	if (!ensure(OwnerActor))
+	{
+		return;
+	}
+
+	UBaseAttributeComponent* BaseAttributeCom = OwnerActor->FindComponentByClass<UBaseAttributeComponent>();
+	if (!ensure(BaseAttributeCom))
+	{
+		return;
+	}
+
+	BaseAttributeCom->OnHpChanged.AddUObject(this, &UHealthBarWidget::OnHpChanged);
 }
 
 void UHealthBarWidget::OnHpChanged(float CurrHp, float MaxHp)
