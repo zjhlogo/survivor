@@ -6,9 +6,12 @@
 #include "GameFramework/Actor.h"
 #include "EnemyBase.generated.h"
 
+class UWidgetComponent;
 class UCapsuleComponent;
 class USkeletalMeshComponent;
 class UAbilitySystemComponent;
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(FHpChanged, float, float);
 
 UCLASS()
 class SURVIVOR_API AEnemyBase : public AActor
@@ -20,6 +23,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UAbilitySystemComponent* GetAbilitySystem() const { return AbilitySystem; }
+
+	FHpChanged OnHpChanged;
 
 protected:
 	virtual void BeginPlay() override;
@@ -34,4 +39,7 @@ private:
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	UAbilitySystemComponent* AbilitySystem{};
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	UWidgetComponent* HealthBar{};
 };

@@ -42,7 +42,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	double LaserBeamMaxLength{300.0};
-	
+
 	UPROPERTY()
 	TArray<ALaserBase*> SpawnedLaserList;
 };

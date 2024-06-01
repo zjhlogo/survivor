@@ -25,7 +25,7 @@ protected:
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	virtual bool OnPostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data);
-	
+
 public:
 	// 当前血量
 	ATTRIBUTE_ACCESSORS(UBaseAttribute, Hp);
