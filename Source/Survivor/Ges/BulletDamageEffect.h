@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectExecutionCalculation.h"
-#include "DamageEffect.generated.h"
+#include "BulletDamageEffect.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SURVIVOR_API UDamageEffect : public UGameplayEffectExecutionCalculation
+class SURVIVOR_API UBulletDamageEffect : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 

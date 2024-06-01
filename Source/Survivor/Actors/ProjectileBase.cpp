@@ -5,7 +5,6 @@
 
 #include "AbilitySystemComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "Survivor/Enemy/EnemyBase.h"
 #include "Survivor/Util/SurvivorDefine.h"
 
 
@@ -45,9 +44,8 @@ void AProjectileBase::PostInitializeComponents()
 
 void AProjectileBase::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (AEnemyBase* Enemy = Cast<AEnemyBase>(OtherActor))
+	if (UAbilitySystemComponent* Ability = OtherActor->FindComponentByClass<UAbilitySystemComponent>())
 	{
-		UAbilitySystemComponent* Ability = Enemy->GetAbilitySystem();
-		Ability->ApplyGameplayEffectToSelf(OnHitEffect.GetDefaultObject(), 0, {});
+		Ability->ApplyGameplayEffectToSelf(HitGe.GetDefaultObject(), 0, {});
 	}
 }

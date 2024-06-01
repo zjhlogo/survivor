@@ -3,6 +3,9 @@
 
 #include "LaserBase.h"
 
+#include "AbilitySystemComponent.h"
+#include "Survivor/Util/SurvivorDefine.h"
+
 ALaserBase::ALaserBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -19,24 +22,42 @@ void ALaserBase::Tick(float DeltaTime)
 		return;
 	}
 
-	FVector Pos = MyOwner->GetActorLocation();
+	UWorld* World = GetWorld();
+	if (!ensure(World))
+	{
+		return;
+	}
+
+	FVector StartPos = MyOwner->GetActorLocation();
 
 	if (bRotate)
 	{
-		UWorld* World = GetWorld();
-		if (!ensure(World))
-		{
-			return;
-		}
-
 		double ElapseTime = FMath::Fmod(World->GetTimeSeconds(), 360.0);
 		double Rotation = RotateSpeed * ElapseTime;
 
-		SetActorLocationAndRotation(Pos, FRotator(0.0, OffsetRotation + Rotation, 0.0));
+		SetActorLocationAndRotation(StartPos, FRotator(0.0, OffsetRotation + Rotation, 0.0));
 	}
 	else
 	{
-		SetActorLocation(Pos);
+		SetActorLocation(StartPos);
+	}
+
+	// ray cast to check if hit the target
+	FVector EndPos = StartPos + GetActorForwardVector() * LaserBeamMaxLength;
+	FHitResult HitResult;
+	if (World->LineTraceSingleByProfile(HitResult, StartPos, EndPos, FSurvivorDefine::CollisionProfileProjectile))
+	{
+		OnLaserHitResult(true, StartPos, HitResult.ImpactPoint);
+
+		// apply ge
+		if (UAbilitySystemComponent* Ability = HitResult.GetActor()->FindComponentByClass<UAbilitySystemComponent>())
+		{
+			Ability->ApplyGameplayEffectToSelf(HitGe.GetDefaultObject(), 0, {});
+		}
+	}
+	else
+	{
+		OnLaserHitResult(false, StartPos, EndPos);
 	}
 }
 
