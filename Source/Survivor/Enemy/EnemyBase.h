@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 #include "EnemyBase.generated.h"
 
 class UWidgetComponent;
@@ -13,7 +13,7 @@ class USkeletalMeshComponent;
 class UAbilitySystemComponent;
 
 UCLASS()
-class SURVIVOR_API AEnemyBase : public AActor
+class SURVIVOR_API AEnemyBase : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -28,12 +28,6 @@ public:
 	UBaseAttributeComponent* BaseAttributeCom;
 
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UCapsuleComponent* Collision{};
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* Mesh{};
-
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	UAbilitySystemComponent* AbilitySystem{};
