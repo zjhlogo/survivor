@@ -32,7 +32,6 @@ class SURVIVOR_API UBaseAttribute : public UAttributeSet
 
 protected:
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-
 	virtual bool OnPostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data);
 
 public:
