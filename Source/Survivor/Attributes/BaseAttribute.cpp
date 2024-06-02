@@ -19,11 +19,24 @@ bool UBaseAttribute::OnPostGameplayEffectExecute(const FGameplayEffectModCallbac
 	{
 		SetHp(FMath::Clamp(GetHp(), 0.0f, GetMaxHp()));
 
-		AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-		UBaseAttributeComponent* BaseAttributeCom = TargetActor->FindComponentByClass<UBaseAttributeComponent>();
-		if (ensure(BaseAttributeCom))
+		// if not dead
+		if ((State & ECharacterState::Dead) == ECharacterState::None)
 		{
-			BaseAttributeCom->OnHpChanged.Broadcast(GetHp(), GetMaxHp());
+			// notify hp changed event
+			AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+			UBaseAttributeComponent* BaseAttributeCom = TargetActor->FindComponentByClass<UBaseAttributeComponent>();
+			if (ensure(BaseAttributeCom))
+			{
+				BaseAttributeCom->OnHpChanged.Broadcast(GetHp(), GetMaxHp());
+			}
+
+			// check is dead
+			if (GetHp() <= 0.0f)
+			{
+				State |= ECharacterState::Dead;
+				// notify dead event
+				BaseAttributeCom->OnCharacterDead.Broadcast();
+			}
 		}
 	}
 	else

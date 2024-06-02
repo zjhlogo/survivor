@@ -26,8 +26,15 @@ void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// bind events
+	BaseAttributeCom->OnCharacterDead.AddUObject(this, &AEnemyBase::NativeOnCharacterDead);
 	if (USurvivorWidgetBase* WidgetBase = Cast<USurvivorWidgetBase>(HealthBarWidget->GetWidget()))
 	{
 		WidgetBase->OnBindEvent(this);
 	}
+}
+
+void AEnemyBase::NativeOnCharacterDead()
+{
+	OnCharacterDead();
 }

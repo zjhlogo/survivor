@@ -13,6 +13,15 @@ GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+UENUM(meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
+enum class ECharacterState: uint64
+{
+	None = 0 UMETA(Hidden),
+	Dead = 1 << 0,
+};
+
+ENUM_CLASS_FLAGS(ECharacterState);
+
 /**
  * 
  */
@@ -51,4 +60,8 @@ public:
 	ATTRIBUTE_ACCESSORS(UBaseAttribute, MoveSpeed);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData MoveSpeed;
+
+	// internal states
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	ECharacterState State{ECharacterState::None};
 };

@@ -27,6 +27,12 @@ public:
 	UPROPERTY()
 	UBaseAttributeComponent* BaseAttributeCom;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnCharacterDead();
+
+protected:
+	virtual void NativeOnCharacterDead();
+	
 private:
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))

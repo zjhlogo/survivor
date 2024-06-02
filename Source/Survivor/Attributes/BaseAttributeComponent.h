@@ -7,15 +7,14 @@
 #include "BaseAttributeComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FHpChanged, float, float);
+DECLARE_MULTICAST_DELEGATE(FCharacterDead);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SURVIVOR_API UBaseAttributeComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
-public:
-	UBaseAttributeComponent();
-
+	
 public:
 	FHpChanged OnHpChanged;
+	FCharacterDead OnCharacterDead;
 };

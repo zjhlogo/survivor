@@ -2,7 +2,3 @@
 
 
 #include "BaseAttributeComponent.h"
-
-UBaseAttributeComponent::UBaseAttributeComponent()
-{
-}
