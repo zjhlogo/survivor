@@ -18,6 +18,7 @@ AProjectileBase::AProjectileBase()
 	RootComponent = StaticMeshComp;
 	StaticMeshComp->SetCollisionProfileName(FSurvivorDefine::CollisionProfileProjectile);
 	StaticMeshComp->CanCharacterStepUpOn = ECB_No;
+	StaticMeshComp->SetGenerateOverlapEvents(false);
 
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
 	MovementComp->InitialSpeed = 1000.0f;
@@ -32,17 +33,11 @@ void AProjectileBase::BeginPlay()
 	Super::BeginPlay();
 
 	// ignore caster collision
+	StaticMeshComp->OnComponentHit.AddDynamic(this, &AProjectileBase::OnHit);
 	StaticMeshComp->IgnoreActorWhenMoving(GetInstigator(), true);
 }
 
-void AProjectileBase::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-
-	OnActorHit.AddDynamic(this, &AProjectileBase::OnHit);
-}
-
-void AProjectileBase::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (UAbilitySystemComponent* Ability = OtherActor->FindComponentByClass<UAbilitySystemComponent>())
 	{
