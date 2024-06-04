@@ -4,10 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "SurvivorWidgetBase.h"
+#include "Survivor/Attributes/BaseAttribute.h"
 #include "HealthBarWidget.generated.h"
 
-class AEnemyBase;
-class UBaseAttribute;
 class UProgressBar;
 /**
  * 
@@ -21,9 +20,14 @@ public:
 	virtual void OnBindEvent(AActor* OwnerActor) override;
 
 private:
-	void OnHpChanged(float CurrHp, float MaxHp);
-
+	void OnHpChanged(const FOnAttributeChangeData& Data);
+	void OnMaxHpChanged(const FOnAttributeChangeData& Data);
+	void UpdateHpView();
+	
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UProgressBar> PbrHealthBar;
+
+	float CurrHp;
+	float MaxHp;
 };

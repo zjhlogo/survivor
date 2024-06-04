@@ -5,7 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Survivor/Attributes/BaseAttributeComponent.h"
+#include "Survivor/Attributes/BaseAttribute.h"
 #include "Survivor/Hud/SurvivorWidgetBase.h"
 
 AEnemyBase::AEnemyBase()
@@ -19,7 +19,7 @@ AEnemyBase::AEnemyBase()
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
 	AbilitySystem->SetOwnerActor(this);
 
-	BaseAttributeCom = CreateDefaultSubobject<UBaseAttributeComponent>(TEXT("BaseAttributeCom"));
+	bIsDead = false;
 }
 
 void AEnemyBase::BeginPlay()
@@ -27,14 +27,18 @@ void AEnemyBase::BeginPlay()
 	Super::BeginPlay();
 
 	// bind events
-	BaseAttributeCom->OnCharacterDead.AddUObject(this, &AEnemyBase::NativeOnCharacterDead);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &AEnemyBase::OnHpChanged);
+
 	if (USurvivorWidgetBase* WidgetBase = Cast<USurvivorWidgetBase>(HealthBarWidget->GetWidget()))
 	{
 		WidgetBase->OnBindEvent(this);
 	}
 }
 
-void AEnemyBase::NativeOnCharacterDead()
+void AEnemyBase::OnHpChanged(const FOnAttributeChangeData& Data)
 {
-	OnCharacterDead();
+	if (Data.NewValue <= 0.0f && !bIsDead)
+	{
+		bIsDead = true;
+	}
 }

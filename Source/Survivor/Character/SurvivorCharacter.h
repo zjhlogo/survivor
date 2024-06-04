@@ -43,4 +43,5 @@ private:
 	// default abilities on birth
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	TArray<TSubclassOf<USurvivorBaseAbility>> GainAbilitiesOnBirth;
+
 };

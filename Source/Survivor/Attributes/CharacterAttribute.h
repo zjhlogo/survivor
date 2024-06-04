@@ -16,7 +16,7 @@ class SURVIVOR_API UCharacterAttribute : public UBaseAttribute
 
 protected:
 	virtual bool OnPostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	
+
 public:
 	// 每秒恢复多少点血量
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, RecoveryHp);
@@ -48,10 +48,20 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData CriticalDamageProbability;
 
+	// 当前经验
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, Exp);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FGameplayAttributeData Exp;
+
 	// 经验加成
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, ExpFactor);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData ExpFactor;
+
+	// 当前等级
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, Level);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FGameplayAttributeData Level;
 
 	// 运气
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, Lucky);

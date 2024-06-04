@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Survivor/Attributes/BaseAttribute.h"
 #include "EnemyBase.generated.h"
 
 class UWidgetComponent;
-class UBaseAttributeComponent;
 class UCapsuleComponent;
 class USkeletalMeshComponent;
 class UAbilitySystemComponent;
@@ -20,19 +20,13 @@ class SURVIVOR_API AEnemyBase : public ACharacter
 public:
 	AEnemyBase();
 
+	UFUNCTION(BlueprintCallable)
+	bool IsDead() const { return bIsDead; }
+
 protected:
 	virtual void BeginPlay() override;
+	virtual void OnHpChanged(const FOnAttributeChangeData& Data);
 
-public:
-	UPROPERTY()
-	UBaseAttributeComponent* BaseAttributeCom;
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnCharacterDead();
-
-protected:
-	virtual void NativeOnCharacterDead();
-	
 private:
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
@@ -40,4 +34,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	UWidgetComponent* HealthBarWidget{};
+
+	uint8 bIsDead : 1;
 };

@@ -2,8 +2,6 @@
 
 
 #include "BaseAttribute.h"
-
-#include "BaseAttributeComponent.h"
 #include "GameplayEffectExtension.h"
 #include "GameplayEffectTypes.h"
 
@@ -22,20 +20,11 @@ bool UBaseAttribute::OnPostGameplayEffectExecute(const FGameplayEffectModCallbac
 		// if not dead
 		if ((State & ECharacterState::Dead) == ECharacterState::None)
 		{
-			// notify hp changed event
-			AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-			UBaseAttributeComponent* BaseAttributeCom = TargetActor->FindComponentByClass<UBaseAttributeComponent>();
-			if (ensure(BaseAttributeCom))
-			{
-				BaseAttributeCom->OnHpChanged.Broadcast(GetHp(), GetMaxHp());
-			}
-
 			// check is dead
 			if (GetHp() <= 0.0f)
 			{
 				State |= ECharacterState::Dead;
-				// notify dead event
-				BaseAttributeCom->OnCharacterDead.Broadcast();
+				// TODO: notify dead event
 			}
 		}
 	}

@@ -4,7 +4,6 @@
 #include "HealthBarWidget.h"
 
 #include "Components/ProgressBar.h"
-#include "Survivor/Attributes/BaseAttributeComponent.h"
 
 void UHealthBarWidget::OnBindEvent(AActor* OwnerActor)
 {
@@ -15,16 +14,33 @@ void UHealthBarWidget::OnBindEvent(AActor* OwnerActor)
 		return;
 	}
 
-	UBaseAttributeComponent* BaseAttributeCom = OwnerActor->FindComponentByClass<UBaseAttributeComponent>();
-	if (!ensure(BaseAttributeCom))
+	UAbilitySystemComponent* AbilitySystemCom = OwnerActor->FindComponentByClass<UAbilitySystemComponent>();
+	if (!ensure(AbilitySystemCom))
 	{
 		return;
 	}
 
-	BaseAttributeCom->OnHpChanged.AddUObject(this, &UHealthBarWidget::OnHpChanged);
+	CurrHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetHpAttribute());
+	MaxHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetMaxHpAttribute());
+	UpdateHpView();
+
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &UHealthBarWidget::OnHpChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetMaxHpAttribute()).AddUObject(this, &UHealthBarWidget::OnMaxHpChanged);
 }
 
-void UHealthBarWidget::OnHpChanged(float CurrHp, float MaxHp)
+void UHealthBarWidget::OnHpChanged(const FOnAttributeChangeData& Data)
+{
+	CurrHp = Data.NewValue;
+	UpdateHpView();
+}
+
+void UHealthBarWidget::OnMaxHpChanged(const FOnAttributeChangeData& Data)
+{
+	MaxHp = Data.NewValue;
+	UpdateHpView();
+}
+
+void UHealthBarWidget::UpdateHpView()
 {
 	PbrHealthBar->SetPercent(CurrHp / MaxHp);
 }
