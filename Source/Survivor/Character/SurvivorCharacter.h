@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "SurvivorCharacter.generated.h"
 
+class USphereComponent;
 class USurvivorBaseAbility;
 class UGameplayAbility;
 class UAbilitySystemComponent;
@@ -27,6 +28,15 @@ public:
 	/** Returns CameraBoom sub-object **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+protected:
+	UFUNCTION()
+	void OnItemOverlapped(UPrimitiveComponent* OverlappedComponent,
+	                      AActor* OtherActor,
+	                      UPrimitiveComponent* OtherComp,
+	                      int32 OtherBodyIndex,
+	                      bool bFromSweep,
+	                      const FHitResult& SweepResult);
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -36,6 +46,10 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom{};
 
+	// item picker
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	USphereComponent* ItemPicker{};
+
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	UAbilitySystemComponent* AbilitySystem{};
@@ -43,5 +57,4 @@ private:
 	// default abilities on birth
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	TArray<TSubclassOf<USurvivorBaseAbility>> GainAbilitiesOnBirth;
-
 };

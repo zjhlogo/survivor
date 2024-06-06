@@ -5,12 +5,16 @@
 #include "Camera/CameraComponent.h"
 #include "AbilitySystemComponent.h"
 #include "Survivor/Ability/SurvivorBaseAbility.h"
+#include "Survivor/Util/SurvivorDefine.h"
+#include "Survivor/Util/DebugUtil.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "Survivor/Actors/ItemBase.h"
 
 ASurvivorCharacter::ASurvivorCharacter()
 {
@@ -41,6 +45,13 @@ ASurvivorCharacter::ASurvivorCharacter()
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	// setup item picker
+	ItemPicker = CreateDefaultSubobject<USphereComponent>(TEXT("ItemPicker"));
+	ItemPicker->SetupAttachment(RootComponent);
+	ItemPicker->InitSphereRadius(200.0f);
+	ItemPicker->CanCharacterStepUpOn = ECB_No;
+	ItemPicker->SetCollisionProfileName(FSurvivorDefine::CollisionProfileItemPicker);
+
 	// Create ASC
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
 	AbilitySystem->SetOwnerActor(this);
@@ -63,6 +74,8 @@ void ASurvivorCharacter::BeginPlay()
 			AbilitySystem->TryActivateAbility(Handle);
 		}
 	}
+
+	ItemPicker->OnComponentBeginOverlap.AddDynamic(this, &ASurvivorCharacter::OnItemOverlapped);
 }
 
 void ASurvivorCharacter::Tick(float DeltaSeconds)
@@ -76,5 +89,20 @@ void ASurvivorCharacter::Tick(float DeltaSeconds)
 		{
 			AbilitySystem->TryActivateAbilitiesByTag(DefaultObj->AbilityTags);
 		}
+	}
+}
+
+void ASurvivorCharacter::OnItemOverlapped(UPrimitiveComponent* OverlappedComponent,
+                                          AActor* OtherActor,
+                                          UPrimitiveComponent* OtherComp,
+                                          int32 OtherBodyIndex,
+                                          bool bFromSweep,
+                                          const FHitResult& SweepResult)
+{
+	AItemBase* Item = Cast<AItemBase>(OtherActor);
+	if (Item != nullptr)
+	{
+		PRINT_R("pick item: {0}", OtherActor->GetActorNameOrLabel());
+		Item->FlyToPawn(this);
 	}
 }

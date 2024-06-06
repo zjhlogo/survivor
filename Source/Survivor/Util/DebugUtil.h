@@ -11,6 +11,11 @@ class FDebugUtil
 public:
 	static void Print(const FString& Str, const FColor& Color = FColor::Red, float Duration = 2.0f);
 
+	static void PrintOnScreen(const TCHAR* Fmt, const FColor& Color)
+	{
+		Print(Fmt, Color);
+	}
+
 	template <typename T1>
 	static void PrintOnScreen(const TCHAR* Fmt, const FColor& Color, T1 Arg1)
 	{

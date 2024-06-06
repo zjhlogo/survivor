@@ -16,22 +16,25 @@ class SURVIVOR_API AItemBase : public AActor
 public:
 	AItemBase();
 
+	void FlyToPawn(TObjectPtr<APawn> Pawn);
+	virtual void Tick(float DeltaSeconds) override;
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
-	UFUNCTION()
-	void OnItemPicked(UPrimitiveComponent* OverlappedComponent,
-	                  AActor* OtherActor,
-	                  UPrimitiveComponent* OtherComp,
-	                  int32 OtherBodyIndex,
-	                  bool bFromSweep,
-	                  const FHitResult& SweepResult);
-
-private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMeshComp;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UGameplayEffect> PickedGe;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	double FlyingSpeed{5.0};
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	double MinPickedDist{100.0};
+
+	UPROPERTY()
+	TObjectPtr<APawn> PawnCollector;
 };
