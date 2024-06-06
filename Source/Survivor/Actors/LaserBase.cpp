@@ -45,7 +45,7 @@ void ALaserBase::Tick(float DeltaTime)
 	// ray cast to check if hit the target
 	FVector EndPos = StartPos + GetActorForwardVector() * LaserBeamMaxLength;
 	FHitResult HitResult;
-	if (World->LineTraceSingleByProfile(HitResult, StartPos, EndPos, FSurvivorDefine::CollisionProfileProjectile))
+	if (World->LineTraceSingleByProfile(HitResult, StartPos, EndPos, FSurvivorDefine::CollisionProfilePawnProjectile))
 	{
 		OnLaserHitResult(true, StartPos, HitResult.ImpactPoint);
 

@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const { return bIsDead; }
 
+    UFUNCTION(BlueprintImplementableEvent)
+    void OnDead();
+    
 protected:
 	virtual void BeginPlay() override;
 	virtual void OnHpChanged(const FOnAttributeChangeData& Data);

@@ -6,7 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Survivor/Attributes/BaseAttribute.h"
-#include "Survivor/Hud/SurvivorWidgetBase.h"
+#include "Survivor/Ui/SurvivorWidgetBase.h"
 
 AEnemyBase::AEnemyBase()
 {
@@ -40,5 +40,6 @@ void AEnemyBase::OnHpChanged(const FOnAttributeChangeData& Data)
 	if (Data.NewValue <= 0.0f && !bIsDead)
 	{
 		bIsDead = true;
+		OnDead();
 	}
 }
