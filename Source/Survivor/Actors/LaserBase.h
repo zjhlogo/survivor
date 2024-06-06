@@ -31,7 +31,7 @@ protected:
 	void OnLaserHitResult(bool HasHit, const FVector& StartPos, const FVector& EndPos);
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UGameplayEffect> HitGe;
 
 	uint8 bRotate : 1;

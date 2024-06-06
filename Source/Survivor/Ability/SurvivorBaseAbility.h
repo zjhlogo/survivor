@@ -21,6 +21,6 @@ public:
 	FORCEINLINE bool IsPassive() const { return bIsPassiveAbility; }
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	uint8 bIsPassiveAbility : 1;
 };

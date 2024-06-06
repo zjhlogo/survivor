@@ -7,6 +7,7 @@
 #include "Survivor/Attributes/BaseAttribute.h"
 #include "EnemyBase.generated.h"
 
+class AItemBase;
 class UWidgetComponent;
 class UCapsuleComponent;
 class USkeletalMeshComponent;
@@ -29,14 +30,18 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void OnHpChanged(const FOnAttributeChangeData& Data);
-
+	virtual void SpawnExp();
+	
 private:
 	// ability system component
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	UAbilitySystemComponent* AbilitySystem{};
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = survivor, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	UWidgetComponent* HealthBarWidget{};
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<AItemBase> ExpItemClass;
+	
 	uint8 bIsDead : 1;
 };

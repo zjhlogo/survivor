@@ -7,6 +7,7 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
+#include "Survivor/Util/DebugUtil.h"
 
 void UIngameHudWidget::OnBindEvent(AActor* OwnerActor)
 {
@@ -57,7 +58,8 @@ void UIngameHudWidget::OnExpChanged(const FOnAttributeChangeData& Data)
 
 void UIngameHudWidget::UpdateExpView()
 {
-	PbrExp->SetPercent(CurrExp / Level * 100.0f);
+	PRINT_R("CurrExp={0}, Level={1}", CurrExp, Level);
+	PbrExp->SetPercent(CurrExp / (Level * 100.0f));
 }
 
 void UIngameHudWidget::OnLevelChanged(const FOnAttributeChangeData& Data)

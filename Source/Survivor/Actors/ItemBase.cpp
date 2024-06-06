@@ -21,6 +21,7 @@ void AItemBase::FlyToPawn(TObjectPtr<APawn> Pawn)
 	StaticMeshComp->SetCollisionProfileName(FSurvivorDefine::CollisionProfileNoCollision);
 	SetActorTickEnabled(true);
 	PawnCollector = Pawn;
+	ElapsedTime = 0.0f;
 }
 
 void AItemBase::Tick(float DeltaSeconds)
@@ -38,16 +39,20 @@ void AItemBase::Tick(float DeltaSeconds)
 	if (DistVec.Length() < MinPickedDist)
 	{
 		// apply item pick effect
-		if (UAbilitySystemComponent* Ability = PawnCollector->FindComponentByClass<UAbilitySystemComponent>())
+		if (UGameplayEffect* ClassInstance = PickedGe.GetDefaultObject())
 		{
-			PRINT_G("gain exp");
-			// Ability->ApplyGameplayEffectToSelf(PickedGe.GetDefaultObject(), 0, {});
+			if (UAbilitySystemComponent* Ability = PawnCollector->FindComponentByClass<UAbilitySystemComponent>())
+			{
+				Ability->ApplyGameplayEffectToSelf(ClassInstance, 0, {});
+			}
 		}
 
 		Destroy();
 	}
 
-	SetActorLocation(CurrPos + FlyingSpeed * DeltaSeconds * DistVec);
+	ElapsedTime += DeltaSeconds;
+	float CurrSpeed = FlyingSpeedCurve->GetFloatValue(ElapsedTime);
+	SetActorLocation(CurrPos + CurrSpeed * DistVec.GetSafeNormal());
 }
 
 void AItemBase::BeginPlay()

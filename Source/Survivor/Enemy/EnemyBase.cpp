@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Survivor/Actors/ItemBase.h"
 #include "Survivor/Attributes/BaseAttribute.h"
 #include "Survivor/Ui/SurvivorWidgetBase.h"
 
@@ -40,6 +41,12 @@ void AEnemyBase::OnHpChanged(const FOnAttributeChangeData& Data)
 	if (Data.NewValue <= 0.0f && !bIsDead)
 	{
 		bIsDead = true;
+		SpawnExp();
 		OnDead();
 	}
+}
+
+void AEnemyBase::SpawnExp()
+{
+	GetWorld()->SpawnActor<AItemBase>(ExpItemClass, GetActorLocation(), GetActorRotation());
 }
