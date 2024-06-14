@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/EnemySpawnInfo.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "GameFramework/GameModeBase.h"
 #include "SurvivorGameMode.generated.h"
@@ -21,8 +22,10 @@ public:
 
 	virtual void StartPlay() override;
 
+	virtual void Tick(float DeltaSeconds) override;
+	
 protected:
-	void SpawnTimerElapsed();
+	void SpawnEnemy(const FEnemySpawnInfo& SpawnInfo);
 
 private:
 	UFUNCTION()
@@ -30,17 +33,9 @@ private:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	float SpawnTimerInterval{2.0f};
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	UEnvQuery* SpawnBotQuery{};
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	TSubclassOf<AEnemyBase> EnemyClass;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	int MaxEnemy{10};
+	TArray<FEnemySpawnInfo> SpawnInfos;
 
 private:
-	FTimerHandle TimerHandleSpawn;
+	TArray<float> TimeElapsed;
+	TQueue<FEnemySpawnInfo> SpawnQueue;
 };

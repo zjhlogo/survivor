@@ -58,7 +58,6 @@ void UIngameHudWidget::OnExpChanged(const FOnAttributeChangeData& Data)
 
 void UIngameHudWidget::UpdateExpView()
 {
-	PRINT_R("CurrExp={0}, Level={1}", CurrExp, Level);
 	PbrExp->SetPercent(CurrExp / (Level * 100.0f));
 }
 
