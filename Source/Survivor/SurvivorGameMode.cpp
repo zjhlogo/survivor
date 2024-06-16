@@ -3,6 +3,7 @@
 #include "SurvivorGameMode.h"
 
 #include "EngineUtils.h"
+#include "Config/LevelConfig.h"
 #include "Enemy/EnemyBase.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
 
@@ -35,6 +36,11 @@ void ASurvivorGameMode::Tick(float DeltaSeconds)
 			SpawnEnemy(SpawnInfos[i]);
 		}
 	}
+}
+
+const FLevelConfig* ASurvivorGameMode::FindLevelConfig(int Lv)
+{
+	return DtLevelConfig->FindRow<FLevelConfig>(FName(*FString::FromInt(Lv)), TEXT("Config"));
 }
 
 void ASurvivorGameMode::SpawnEnemy(const FEnemySpawnInfo& SpawnInfo)

@@ -6,23 +6,25 @@
 #include "AbilitySystemComponent.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
+#include "Survivor/SurvivorGameMode.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
-#include "Survivor/Util/DebugUtil.h"
+#include "Survivor/Config/LevelConfig.h"
 
 void UIngameHudWidget::OnBindEvent(AActor* OwnerActor)
 {
 	Super::OnBindEvent(OwnerActor);
 
 	UAbilitySystemComponent* AbilitySystemCom = OwnerActor->FindComponentByClass<UAbilitySystemComponent>();
-	if (!ensure(AbilitySystemCom))
-	{
-		return;
-	}
+	check(AbilitySystemCom);
+
+	CurrGameMode = Cast<ASurvivorGameMode>(GetWorld()->GetAuthGameMode());
+	check(CurrGameMode);
 
 	CurrHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetHpAttribute());
 	MaxHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetMaxHpAttribute());
 	CurrExp = AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetExpAttribute());
 	Level = static_cast<int>(AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetLevelAttribute()));
+	CurrLevelConfig = CurrGameMode->FindLevelConfig(Level);
 	UpdateHpView();
 	UpdateExpView();
 	UpdateLevelView();
@@ -58,12 +60,13 @@ void UIngameHudWidget::OnExpChanged(const FOnAttributeChangeData& Data)
 
 void UIngameHudWidget::UpdateExpView()
 {
-	PbrExp->SetPercent(CurrExp / (Level * 100.0f));
+	PbrExp->SetPercent(CurrExp / CurrLevelConfig->MaxExp);
 }
 
 void UIngameHudWidget::OnLevelChanged(const FOnAttributeChangeData& Data)
 {
 	Level = Data.NewValue;
+	CurrLevelConfig = CurrGameMode->FindLevelConfig(Level);
 	UpdateLevelView();
 }
 

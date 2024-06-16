@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/EnemySpawnInfo.h"
+#include "Config/EnemySpawnInfo.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "GameFramework/GameModeBase.h"
 #include "SurvivorGameMode.generated.h"
 
+struct FLevelConfig;
+class UDataTable;
 class UEnvQueryInstanceBlueprintWrapper;
 class AEnemyBase;
 class UEnvQuery;
@@ -23,7 +25,9 @@ public:
 	virtual void StartPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;
-	
+
+	const FLevelConfig* FindLevelConfig(int Lv);
+
 protected:
 	void SpawnEnemy(const FEnemySpawnInfo& SpawnInfo);
 
@@ -34,6 +38,9 @@ private:
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	TArray<FEnemySpawnInfo> SpawnInfos;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UDataTable* DtLevelConfig{};
 
 private:
 	TArray<float> TimeElapsed;

@@ -84,7 +84,7 @@ void ASurvivorCharacter::Tick(float DeltaSeconds)
 
 	for (TSubclassOf<USurvivorBaseAbility>& Ability : GainAbilitiesOnBirth)
 	{
-		auto DefaultObj = Ability.GetDefaultObject();
+		USurvivorBaseAbility* DefaultObj = Ability.GetDefaultObject();
 		if (DefaultObj->IsPassive())
 		{
 			AbilitySystem->TryActivateAbilitiesByTag(DefaultObj->AbilityTags);
