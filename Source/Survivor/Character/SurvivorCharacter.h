@@ -6,10 +6,13 @@
 #include "GameFramework/Character.h"
 #include "SurvivorCharacter.generated.h"
 
+struct FOnAttributeChangeData;
 class USphereComponent;
 class USurvivorBaseAbility;
 class UGameplayAbility;
 class UAbilitySystemComponent;
+class UCameraComponent;
+class USpringArmComponent;
 
 UCLASS(Blueprintable)
 class ASurvivorCharacter : public ACharacter
@@ -24,18 +27,17 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	/** Returns TopDownCameraComponent sub-object **/
-	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
+	FORCEINLINE UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom sub-object **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
+	FORCEINLINE UAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystem; }
 
 protected:
-	UFUNCTION()
-	void OnItemOverlapped(UPrimitiveComponent* OverlappedComponent,
-	                      AActor* OtherActor,
-	                      UPrimitiveComponent* OtherComp,
-	                      int32 OtherBodyIndex,
-	                      bool bFromSweep,
-	                      const FHitResult& SweepResult);
+	void OnHpChanged(const FOnAttributeChangeData& Data);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDead();
 
 private:
 	/** Top down camera */
@@ -57,4 +59,6 @@ private:
 	// default abilities on birth
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	TArray<TSubclassOf<USurvivorBaseAbility>> GainAbilitiesOnBirth;
+	
+	uint8 bIsDead : 1;
 };

@@ -4,7 +4,7 @@
 #include "ItemBase.h"
 
 #include "AbilitySystemComponent.h"
-#include "Survivor/Util/DebugUtil.h"
+#include "Survivor/Character/SurvivorCharacter.h"
 #include "Survivor/Util/SurvivorDefine.h"
 
 AItemBase::AItemBase()
@@ -60,4 +60,19 @@ void AItemBase::BeginPlay()
 	Super::BeginPlay();
 
 	SetActorTickEnabled(false);
+	StaticMeshComp->OnComponentBeginOverlap.AddDynamic(this, &AItemBase::OnOverlappedWithCharacter);
+}
+
+void AItemBase::OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,
+                                          AActor* OtherActor,
+                                          UPrimitiveComponent* OtherComp,
+                                          int32 OtherBodyIndex,
+                                          bool bFromSweep,
+                                          const FHitResult& SweepResult)
+{
+	ASurvivorCharacter* Character = Cast<ASurvivorCharacter>(OtherActor);
+	if (Character != nullptr)
+	{
+		FlyToPawn(Character);
+	}
 }

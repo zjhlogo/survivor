@@ -4,9 +4,9 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "AbilitySystemComponent.h"
+#include "Survivor/Enemy/EnemyBase.h"
 #include "Survivor/Ability/SurvivorBaseAbility.h"
 #include "Survivor/Util/SurvivorDefine.h"
-#include "Survivor/Util/DebugUtil.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -14,7 +14,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
-#include "Survivor/Actors/ItemBase.h"
 
 ASurvivorCharacter::ASurvivorCharacter()
 {
@@ -59,6 +58,7 @@ ASurvivorCharacter::ASurvivorCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+	bIsDead = false;
 }
 
 void ASurvivorCharacter::BeginPlay()
@@ -75,7 +75,7 @@ void ASurvivorCharacter::BeginPlay()
 		}
 	}
 
-	ItemPicker->OnComponentBeginOverlap.AddDynamic(this, &ASurvivorCharacter::OnItemOverlapped);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
 }
 
 void ASurvivorCharacter::Tick(float DeltaSeconds)
@@ -92,17 +92,11 @@ void ASurvivorCharacter::Tick(float DeltaSeconds)
 	}
 }
 
-void ASurvivorCharacter::OnItemOverlapped(UPrimitiveComponent* OverlappedComponent,
-                                          AActor* OtherActor,
-                                          UPrimitiveComponent* OtherComp,
-                                          int32 OtherBodyIndex,
-                                          bool bFromSweep,
-                                          const FHitResult& SweepResult)
+void ASurvivorCharacter::OnHpChanged(const FOnAttributeChangeData& Data)
 {
-	AItemBase* Item = Cast<AItemBase>(OtherActor);
-	if (Item != nullptr)
+	if (Data.NewValue <= 0.0f && !bIsDead)
 	{
-		PRINT_R("pick item: {0}", OtherActor->GetActorNameOrLabel());
-		Item->FlyToPawn(this);
+		bIsDead = true;
+		OnDead();
 	}
 }

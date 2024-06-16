@@ -12,7 +12,7 @@ void ULaserDamageEffect::Execute_Implementation(const FGameplayEffectCustomExecu
 
 	if (ensure(GWorld))
 	{
-		float Damage = GWorld->GetDeltaSeconds() * 50.0f;
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UBaseAttribute::GetHpAttribute(), EGameplayModOp::Additive, -Damage));
+		float Damage = GWorld->GetDeltaSeconds() * DamageSpeed;
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UBaseAttribute::GetHpAttribute(), EGameplayModOp::Additive, Damage));
 	}
 }

@@ -4,10 +4,13 @@
 #include "EnemyBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Survivor/Actors/ItemBase.h"
 #include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Character/SurvivorCharacter.h"
 #include "Survivor/Ui/SurvivorWidgetBase.h"
+#include "Survivor/Util/SurvivorDefine.h"
 
 AEnemyBase::AEnemyBase()
 {
@@ -34,6 +37,11 @@ void AEnemyBase::BeginPlay()
 	{
 		WidgetBase->OnBindEvent(this);
 	}
+
+	if (GeCastToCharacter.GetDefaultObject() != nullptr)
+	{
+		GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AEnemyBase::OnOverlappedWithCharacter);
+	}
 }
 
 void AEnemyBase::OnHpChanged(const FOnAttributeChangeData& Data)
@@ -42,6 +50,7 @@ void AEnemyBase::OnHpChanged(const FOnAttributeChangeData& Data)
 	{
 		bIsDead = true;
 		SpawnExp();
+		GetCapsuleComponent()->SetCollisionProfileName(FSurvivorDefine::CollisionProfileNoCollision);
 		OnDead();
 	}
 }
@@ -49,4 +58,19 @@ void AEnemyBase::OnHpChanged(const FOnAttributeChangeData& Data)
 void AEnemyBase::SpawnExp()
 {
 	GetWorld()->SpawnActor<AItemBase>(ExpItemClass, GetActorLocation(), GetActorRotation());
+}
+
+void AEnemyBase::OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,
+                                           AActor* OtherActor,
+                                           UPrimitiveComponent* OtherComp,
+                                           int32 OtherBodyIndex,
+                                           bool bFromSweep,
+                                           const FHitResult& SweepResult)
+{
+	ASurvivorCharacter* Character = Cast<ASurvivorCharacter>(OtherActor);
+	if (Character != nullptr)
+	{
+		UAbilitySystemComponent* CharacterAsc = Character->GetAbilitySystemComponent();
+		AbilitySystem->ApplyGameplayEffectToTarget(GeCastToCharacter.GetDefaultObject(), CharacterAsc);
+	}
 }

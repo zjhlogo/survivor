@@ -1,16 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameplayEffectExecutionCalculation.h"
-#include "BulletDamageEffect.generated.h"
+#include "PawnDamageEffect.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SURVIVOR_API UBulletDamageEffect : public UGameplayEffectExecutionCalculation
+class SURVIVOR_API UPawnDamageEffect : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 
@@ -20,6 +20,5 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	float DamageAmount{-5.0f};
-
+	float DamageAmount{-20.0f};
 };

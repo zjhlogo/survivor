@@ -24,14 +24,22 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const { return bIsDead; }
 
-    UFUNCTION(BlueprintImplementableEvent)
-    void OnDead();
-    
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDead();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void OnHpChanged(const FOnAttributeChangeData& Data);
 	virtual void SpawnExp();
-	
+
+	UFUNCTION()
+	void OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,
+	                               AActor* OtherActor,
+	                               UPrimitiveComponent* OtherComp,
+	                               int32 OtherBodyIndex,
+	                               bool bFromSweep,
+	                               const FHitResult& SweepResult);
+
 private:
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
@@ -42,6 +50,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<AItemBase> ExpItemClass;
-	
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<UGameplayEffect> GeCastToCharacter;
+
 	uint8 bIsDead : 1;
 };

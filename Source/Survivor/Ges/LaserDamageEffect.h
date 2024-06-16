@@ -17,4 +17,9 @@ class SURVIVOR_API ULaserDamageEffect : public UGameplayEffectExecutionCalculati
 public:
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	                                    FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+	
+private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	float DamageSpeed{-50.0f};
+
 };

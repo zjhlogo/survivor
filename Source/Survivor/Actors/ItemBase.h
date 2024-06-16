@@ -22,6 +22,14 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,
+						  AActor* OtherActor,
+						  UPrimitiveComponent* OtherComp,
+						  int32 OtherBodyIndex,
+						  bool bFromSweep,
+						  const FHitResult& SweepResult);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMeshComp;
@@ -33,7 +41,7 @@ private:
 	TObjectPtr<UCurveFloat> FlyingSpeedCurve;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	double MinPickedDist{100.0};
+	double MinPickedDist{10.0};
 
 	UPROPERTY()
 	TObjectPtr<APawn> PawnCollector;
