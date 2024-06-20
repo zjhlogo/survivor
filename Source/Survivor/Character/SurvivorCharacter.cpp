@@ -69,10 +69,7 @@ void ASurvivorCharacter::BeginPlay()
 	for (TSubclassOf<USurvivorBaseAbility>& Ability : GainAbilitiesOnBirth)
 	{
 		FGameplayAbilitySpecHandle Handle = AbilitySystem->GiveAbility(FGameplayAbilitySpec(Ability, 1, INDEX_NONE, this));
-		if (Ability.GetDefaultObject()->IsPassive())
-		{
-			AbilitySystem->TryActivateAbility(Handle);
-		}
+		AbilitySystem->TryActivateAbility(Handle);
 	}
 
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
