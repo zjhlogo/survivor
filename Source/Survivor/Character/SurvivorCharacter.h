@@ -35,9 +35,13 @@ public:
 
 protected:
 	void OnHpChanged(const FOnAttributeChangeData& Data);
+	void OnLevelUp(const FOnAttributeChangeData& Data);
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnDead();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnLevelUp();
 
 private:
 	/** Top down camera */

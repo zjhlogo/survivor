@@ -14,6 +14,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "Survivor/Attributes/CharacterAttribute.h"
 
 ASurvivorCharacter::ASurvivorCharacter()
 {
@@ -73,6 +74,7 @@ void ASurvivorCharacter::BeginPlay()
 	}
 
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);
 }
 
 void ASurvivorCharacter::Tick(float DeltaSeconds)
@@ -96,4 +98,9 @@ void ASurvivorCharacter::OnHpChanged(const FOnAttributeChangeData& Data)
 		bIsDead = true;
 		OnDead();
 	}
+}
+
+void ASurvivorCharacter::OnLevelUp(const FOnAttributeChangeData& Data)
+{
+	OnLevelUp();
 }

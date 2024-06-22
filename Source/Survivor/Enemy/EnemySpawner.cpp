@@ -16,10 +16,11 @@ void UEnemySpawner::EnemyDead(AEnemyBase* EnemyBase)
 
 void UEnemySpawner::StartPlay()
 {
-	SpawnTracingInfos.Empty();
-	for (int i = 0; i < SpawnInfos.Num(); ++i)
+	auto Num = SpawnInfos.Num();
+	SpawnTracingInfos.SetNum(Num);
+	for (int i = 0; i < Num; ++i)
 	{
-		SpawnTracingInfos.Add({SpawnInfos[i].SpawnTimerInterval, 0});
+		SpawnTracingInfos[i] = FSpawnTracingInfo({SpawnInfos[i].SpawnTimerInterval, 0});
 	}
 }
 
