@@ -51,6 +51,7 @@ void AEnemyBase::OnHpChanged(const FOnAttributeChangeData& Data)
 		bIsDead = true;
 		SpawnExp();
 		GetCapsuleComponent()->SetCollisionProfileName(FSurvivorDefine::CollisionProfileNoCollision);
+		OnEnemyDead.Execute(this);
 		OnDead();
 	}
 }

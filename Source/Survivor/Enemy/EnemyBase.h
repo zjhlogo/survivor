@@ -12,6 +12,9 @@ class UWidgetComponent;
 class UCapsuleComponent;
 class USkeletalMeshComponent;
 class UAbilitySystemComponent;
+class AEnemyBase;
+
+DECLARE_DELEGATE_OneParam(FOnEnemyDead, AEnemyBase*);
 
 UCLASS()
 class SURVIVOR_API AEnemyBase : public ACharacter
@@ -40,6 +43,9 @@ protected:
 	                               bool bFromSweep,
 	                               const FHitResult& SweepResult);
 
+public:
+	FOnEnemyDead OnEnemyDead;
+	
 private:
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
