@@ -9,6 +9,7 @@
 #include "WeaponTypeConfig.h"
 #include "WeaponBulletCategoryConfig.h"
 #include "WeaponBulletLevelConfig.h"
+#include "MonsterConfig.h"
 
 void UConfigSystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -43,4 +44,9 @@ const FWeaponBulletCategoryConfig* UConfigSystem::FindWeaponBulletCategoryConfig
 const FWeaponBulletLevelConfig* UConfigSystem::FindWeaponBulletLevelConfig(int32 Category, int32 Lv)
 {
 	return DtWeaponBulletLevel->FindRow<FWeaponBulletLevelConfig>(FName(*FString::FromInt(Category * 1000 + Lv)), TEXT("Config"));
+}
+
+const FMonsterConfig* UConfigSystem::FindMonsterConfig(const FName& Id)
+{
+	return DtMonster->FindRow<FMonsterConfig>(Id, TEXT("Config"));
 }

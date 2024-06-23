@@ -9,12 +9,18 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, Abstract)
 class SURVIVOR_API USurvivorWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
-	virtual void OnBindEvent(AActor* OwnerActor);
+	void SetActorOwner(AActor* Owner);
+
+protected:
+	virtual void OnActorOwnerSet();
+
+protected:
+	UPROPERTY()
+	AActor* ActorOwner{};
 };

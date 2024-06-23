@@ -17,4 +17,6 @@ public:
 	inline static const FName CollisionProfilePawnProjectile{TEXT("PawnProjectile")};
 	inline static const FName CollisionProfileItem{TEXT("Item")};
 	inline static const FName CollisionProfileItemPicker{TEXT("ItemPicker")};
+
+	static bool IsGameRunning();
 };

@@ -5,16 +5,9 @@
 
 #include "Components/ProgressBar.h"
 
-void UHealthBarWidget::OnBindEvent(AActor* OwnerActor)
+void UHealthBarWidget::OnActorOwnerSet()
 {
-	Super::OnBindEvent(OwnerActor);
-
-	if (!ensure(OwnerActor))
-	{
-		return;
-	}
-
-	UAbilitySystemComponent* AbilitySystemCom = OwnerActor->FindComponentByClass<UAbilitySystemComponent>();
+	UAbilitySystemComponent* AbilitySystemCom = ActorOwner->FindComponentByClass<UAbilitySystemComponent>();
 	if (!ensure(AbilitySystemCom))
 	{
 		return;

@@ -6,8 +6,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "SurvivorGameMode.generated.h"
 
-class UEnemySpawner;
-
 UCLASS(minimalapi)
 class ASurvivorGameMode : public AGameModeBase
 {
@@ -16,12 +14,7 @@ class ASurvivorGameMode : public AGameModeBase
 public:
 	ASurvivorGameMode();
 
-	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
-	virtual void StartPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-
-protected:
+private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	TSubclassOf<UEnemySpawner> EnemySpawnerClass;
-	TStrongObjectPtr<UEnemySpawner> EnemySpawner{};
+	TArray<TSubclassOf<USubsystem>> BlueprintSubSystems;
 };

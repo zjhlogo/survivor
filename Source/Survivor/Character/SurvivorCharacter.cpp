@@ -1,20 +1,21 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SurvivorCharacter.h"
-#include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "AbilitySystemComponent.h"
-#include "Survivor/Enemy/EnemyBase.h"
+#include "Survivor/Monster/MonsterBase.h"
 #include "Survivor/Ability/SurvivorBaseAbility.h"
 #include "Survivor/Util/SurvivorDefine.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
+#include "Survivor/Config/CharacterLevelConfig.h"
+#include "Survivor/Config/ConfigSystem.h"
 
 ASurvivorCharacter::ASurvivorCharacter()
 {
@@ -62,6 +63,32 @@ ASurvivorCharacter::ASurvivorCharacter()
 	bIsDead = false;
 }
 
+void ASurvivorCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	if (!FSurvivorDefine::IsGameRunning())
+	{
+		return;
+	}
+
+	// reset attributes
+	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
+	check(ConfigSystem);
+	auto LevelConfig = ConfigSystem->FindCharacterLevelConfig(1);
+	check(LevelConfig);
+
+	UCharacterAttribute* Attributes = const_cast<UCharacterAttribute*>(AbilitySystem->AddSet<UCharacterAttribute>());
+	check(Attributes);
+
+	Attributes->SetHp(LevelConfig->BaseHp);
+	Attributes->SetMaxHp(LevelConfig->BaseHp);
+	Attributes->SetLevel(1);
+	Attributes->SetExp(0);
+
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);
+}
+
 void ASurvivorCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -72,9 +99,6 @@ void ASurvivorCharacter::BeginPlay()
 		FGameplayAbilitySpecHandle Handle = AbilitySystem->GiveAbility(FGameplayAbilitySpec(Ability, 1, INDEX_NONE, this));
 		AbilitySystem->TryActivateAbility(Handle);
 	}
-
-	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
-	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);
 }
 
 void ASurvivorCharacter::Tick(float DeltaSeconds)

@@ -18,8 +18,8 @@ class SURVIVOR_API UIngameHudWidget : public USurvivorWidgetBase
 {
 	GENERATED_BODY()
 
-public:
-	virtual void OnBindEvent(AActor* OwnerActor) override;
+protected:
+	virtual void OnActorOwnerSet() override;
 
 private:
 	void OnHpChanged(const FOnAttributeChangeData& Data);

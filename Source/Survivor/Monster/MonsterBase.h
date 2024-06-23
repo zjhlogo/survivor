@@ -5,24 +5,25 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Survivor/Attributes/BaseAttribute.h"
-#include "EnemyBase.generated.h"
+#include "MonsterBase.generated.h"
 
+class USurvivorWidgetComponent;
 class AItemBase;
 class UWidgetComponent;
 class UCapsuleComponent;
 class USkeletalMeshComponent;
 class UAbilitySystemComponent;
-class AEnemyBase;
+class AMonsterBase;
 
-DECLARE_DELEGATE_OneParam(FOnEnemyDead, AEnemyBase*);
+DECLARE_DELEGATE_OneParam(FOnMonsterDead, AMonsterBase*);
 
 UCLASS()
-class SURVIVOR_API AEnemyBase : public ACharacter
+class SURVIVOR_API AMonsterBase : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AEnemyBase();
+	AMonsterBase();
 
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const { return bIsDead; }
@@ -31,7 +32,7 @@ public:
 	void OnDead();
 
 protected:
-	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
 	virtual void OnHpChanged(const FOnAttributeChangeData& Data);
 	virtual void SpawnExp();
 
@@ -44,15 +45,18 @@ protected:
 	                               const FHitResult& SweepResult);
 
 public:
-	FOnEnemyDead OnEnemyDead;
-	
+	FOnMonsterDead OnMonsterDead;
+
 private:
 	// ability system component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	UAbilitySystemComponent* AbilitySystem{};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
-	UWidgetComponent* HealthBarWidget{};
+	USurvivorWidgetComponent* HealthBarWidget{};
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	FDataTableRowHandle MonsterConfig;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<AItemBase> ExpItemClass;

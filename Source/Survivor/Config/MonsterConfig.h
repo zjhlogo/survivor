@@ -1,25 +1,29 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "EnemySpawnInfo.generated.h"
-
-class AEnemyBase;
-class UEnvQuery;
+#include "Engine/DataTable.h"
+#include "MonsterConfig.generated.h"
 
 USTRUCT(BlueprintType)
-struct FEnemySpawnInfo
+struct FMonsterConfig : public FTableRowBase
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float SpawnTimerInterval{2.0f};
+	FString Name;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	UEnvQuery* SpawnBotQuery{};
+	FString Desc;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	TSubclassOf<AEnemyBase> EnemyClass;
+	float BaseHp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int MaxEnemy{10};
+	float BaseDamage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	int32 Ai;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	float DropExp;
 };

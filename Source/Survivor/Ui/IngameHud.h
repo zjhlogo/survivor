@@ -17,6 +17,8 @@ class SURVIVOR_API AIngameHud : public AHUD
 	GENERATED_BODY()
 
 public:
+	AIngameHud();
+	
 	virtual void BeginPlay() override;
 
 private:

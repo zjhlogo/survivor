@@ -11,11 +11,9 @@
 #include "Survivor/Config/ConfigSystem.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
 
-void UIngameHudWidget::OnBindEvent(AActor* OwnerActor)
+void UIngameHudWidget::OnActorOwnerSet()
 {
-	Super::OnBindEvent(OwnerActor);
-
-	UAbilitySystemComponent* AbilitySystemCom = OwnerActor->FindComponentByClass<UAbilitySystemComponent>();
+	UAbilitySystemComponent* AbilitySystemCom = ActorOwner->FindComponentByClass<UAbilitySystemComponent>();
 	check(AbilitySystemCom);
 
 	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();

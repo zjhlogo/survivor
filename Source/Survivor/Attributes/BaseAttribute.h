@@ -45,11 +45,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData MaxHp;
 
-	// 护盾
-	ATTRIBUTE_ACCESSORS(UBaseAttribute, Shield);
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData Shield;
-
 	// 伤害
 	ATTRIBUTE_ACCESSORS(UBaseAttribute, Damage);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)

@@ -5,11 +5,15 @@
 
 #include "SurvivorWidgetBase.h"
 
+AIngameHud::AIngameHud()
+{
+}
+
 void AIngameHud::BeginPlay()
 {
 	Super::BeginPlay();
 
 	USurvivorWidgetBase* Widget = CreateWidget<USurvivorWidgetBase>(GetWorld(), HudWidget);
+	Widget->SetActorOwner(GetOwningPlayerController()->GetPawn());
 	Widget->AddToViewport();
-	Widget->OnBindEvent(GetOwningPlayerController()->GetPawn());
 }

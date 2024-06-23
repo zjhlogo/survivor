@@ -22,15 +22,14 @@ class ASurvivorCharacter : public ACharacter
 public:
 	ASurvivorCharacter();
 
+	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
-	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
 
 	/** Returns TopDownCameraComponent sub-object **/
 	FORCEINLINE UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom sub-object **/
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-
 	FORCEINLINE UAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystem; }
 
 protected:

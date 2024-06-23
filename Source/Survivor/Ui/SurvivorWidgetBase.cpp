@@ -3,6 +3,12 @@
 
 #include "SurvivorWidgetBase.h"
 
-void USurvivorWidgetBase::OnBindEvent(AActor* OwnerActor)
+void USurvivorWidgetBase::SetActorOwner(AActor* Owner)
+{
+	ActorOwner = Owner;
+	OnActorOwnerSet();
+}
+
+void USurvivorWidgetBase::OnActorOwnerSet()
 {
 }

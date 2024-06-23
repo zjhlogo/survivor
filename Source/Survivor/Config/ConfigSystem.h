@@ -6,6 +6,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ConfigSystem.generated.h"
 
+struct FMonsterConfig;
 struct FWeaponBulletLevelConfig;
 struct FWeaponBulletCategoryConfig;
 struct FWeaponTypeConfig;
@@ -15,7 +16,7 @@ class UDataTable;
 /**
  * 
  */
-UCLASS(BlueprintType, Blueprintable, Abstract)
+UCLASS(Blueprintable, Abstract)
 class SURVIVOR_API UConfigSystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
@@ -29,6 +30,7 @@ public:
 	const FWeaponTypeConfig* FindWeaponTypeConfig(int32 TypeId);
 	const FWeaponBulletCategoryConfig* FindWeaponBulletCategoryConfig(int32 Category);
 	const FWeaponBulletLevelConfig* FindWeaponBulletLevelConfig(int32 Category, int32 Lv);
+	const FMonsterConfig* FindMonsterConfig(const FName& Id);
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
@@ -45,4 +47,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	UDataTable* DtWeaponBulletLevel{};
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UDataTable* DtMonster{};
 };
