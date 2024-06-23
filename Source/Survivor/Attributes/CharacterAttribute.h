@@ -28,6 +28,16 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData PickupRange;
 
+	// 局外武器伤害加成
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, ExternalDamageFactor);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FGameplayAttributeData ExternalDamageFactor;
+	
+	// 局内武器伤害加成
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, InternalDamageFactor);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FGameplayAttributeData InternalDamageFactor;
+	
 	// 暴击伤害
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, CriticalDamage);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)

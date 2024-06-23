@@ -6,9 +6,10 @@
 #include "AbilitySystemComponent.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
-#include "Survivor/SurvivorGameMode.h"
+#include "Kismet/GameplayStatics.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
-#include "Survivor/Config/LevelConfig.h"
+#include "Survivor/Config/ConfigSystem.h"
+#include "Survivor/Config/CharacterLevelConfig.h"
 
 void UIngameHudWidget::OnBindEvent(AActor* OwnerActor)
 {
@@ -17,14 +18,14 @@ void UIngameHudWidget::OnBindEvent(AActor* OwnerActor)
 	UAbilitySystemComponent* AbilitySystemCom = OwnerActor->FindComponentByClass<UAbilitySystemComponent>();
 	check(AbilitySystemCom);
 
-	CurrGameMode = Cast<ASurvivorGameMode>(GetWorld()->GetAuthGameMode());
-	check(CurrGameMode);
+	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
+	check(ConfigSystem);
 
 	CurrHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetHpAttribute());
 	MaxHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetMaxHpAttribute());
 	CurrExp = AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetExpAttribute());
 	Level = static_cast<int>(AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetLevelAttribute()));
-	CurrLevelConfig = CurrGameMode->FindLevelConfig(Level);
+	CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(Level);
 	UpdateHpView();
 	UpdateExpView();
 	UpdateLevelView();
@@ -60,13 +61,17 @@ void UIngameHudWidget::OnExpChanged(const FOnAttributeChangeData& Data)
 
 void UIngameHudWidget::UpdateExpView()
 {
-	PbrExp->SetPercent(CurrExp / CurrLevelConfig->MaxExp);
+	PbrExp->SetPercent(CurrExp / CurrLevelConfig->LevelUpExp);
 }
 
 void UIngameHudWidget::OnLevelChanged(const FOnAttributeChangeData& Data)
 {
 	Level = Data.NewValue;
-	CurrLevelConfig = CurrGameMode->FindLevelConfig(Level);
+
+	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
+	check(ConfigSystem);
+	CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(Level);
+
 	UpdateLevelView();
 }
 

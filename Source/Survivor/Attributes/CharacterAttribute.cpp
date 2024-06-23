@@ -3,8 +3,9 @@
 
 #include "CharacterAttribute.h"
 #include "GameplayEffectExtension.h"
-#include "Survivor/SurvivorGameMode.h"
-#include "Survivor/Config/LevelConfig.h"
+#include "Kismet/GameplayStatics.h"
+#include "Survivor/Config/ConfigSystem.h"
+#include "Survivor/Config/CharacterLevelConfig.h"
 
 bool UCharacterAttribute::OnPostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
@@ -18,25 +19,25 @@ bool UCharacterAttribute::OnPostGameplayEffectExecute(const FGameplayEffectModCa
 		float CurrExp = GetExp();
 		float CurrLevel = GetLevel();
 
-		ASurvivorGameMode* CurrGameMode = Cast<ASurvivorGameMode>(GetWorld()->GetAuthGameMode());
-		check(CurrGameMode);
+		UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
+		check(ConfigSystem);
 
 		// get level config
-		if (const FLevelConfig* CurrLevelConfig = CurrGameMode->FindLevelConfig(CurrLevel))
+		if (const FCharacterLevelConfig* CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(CurrLevel))
 		{
-			while (CurrExp >= CurrLevelConfig->MaxExp)
+			while (CurrExp >= CurrLevelConfig->LevelUpExp)
 			{
-				CurrExp -= CurrLevelConfig->MaxExp;
+				CurrExp -= CurrLevelConfig->LevelUpExp;
 
 				// get next level config
-				if (const FLevelConfig* NextLevelConfig = CurrGameMode->FindLevelConfig(CurrLevel + 1))
+				if (const FCharacterLevelConfig* NextLevelConfig = ConfigSystem->FindCharacterLevelConfig(CurrLevel + 1))
 				{
 					CurrLevelConfig = NextLevelConfig;
 					CurrLevel += 1;
 				}
 				else
 				{
-					CurrExp = CurrLevelConfig->MaxExp;
+					CurrExp = CurrLevelConfig->LevelUpExp;
 					break;
 				}
 			}

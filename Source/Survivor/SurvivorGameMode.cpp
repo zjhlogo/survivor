@@ -1,8 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SurvivorGameMode.h"
-
-#include "Config/LevelConfig.h"
 #include "Enemy/EnemySpawner.h"
 
 ASurvivorGameMode::ASurvivorGameMode()
@@ -28,9 +26,4 @@ void ASurvivorGameMode::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	EnemySpawner->Tick(DeltaSeconds);
-}
-
-const FLevelConfig* ASurvivorGameMode::FindLevelConfig(int Lv)
-{
-	return DtLevelConfig->FindRow<FLevelConfig>(FName(*FString::FromInt(Lv)), TEXT("Config"));
 }

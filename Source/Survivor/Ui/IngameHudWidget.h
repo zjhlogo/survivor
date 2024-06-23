@@ -7,8 +7,7 @@
 #include "Survivor/Attributes/BaseAttribute.h"
 #include "IngameHudWidget.generated.h"
 
-class ASurvivorGameMode;
-struct FLevelConfig;
+struct FCharacterLevelConfig;
 class UProgressBar;
 class UTextBlock;
 /**
@@ -48,8 +47,5 @@ private:
 	float CurrExp;
 	int Level;
 
-	UPROPERTY()
-	ASurvivorGameMode* CurrGameMode{};
-	
-	const FLevelConfig* CurrLevelConfig{};
+	const FCharacterLevelConfig* CurrLevelConfig{};
 };

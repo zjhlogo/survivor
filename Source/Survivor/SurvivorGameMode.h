@@ -7,8 +7,6 @@
 #include "SurvivorGameMode.generated.h"
 
 class UEnemySpawner;
-struct FLevelConfig;
-class UDataTable;
 
 UCLASS(minimalapi)
 class ASurvivorGameMode : public AGameModeBase
@@ -22,14 +20,8 @@ public:
 	virtual void StartPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	const FLevelConfig* FindLevelConfig(int Lv);
-
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UEnemySpawner> EnemySpawnerClass;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	UDataTable* DtLevelConfig{};
-
 	TStrongObjectPtr<UEnemySpawner> EnemySpawner{};
 };

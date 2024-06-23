@@ -2,16 +2,16 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "LevelConfig.generated.h"
+#include "WeaponTypeConfig.generated.h"
 
 USTRUCT(BlueprintType)
-struct FLevelConfig : public FTableRowBase
+struct FWeaponTypeConfig : public FTableRowBase
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 Level;
+	int32 DamageType;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 MaxExp;
+	FString Desc;
 };
