@@ -5,9 +5,8 @@
 
 #include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Kismet/GameplayStatics.h"
 #include "Survivor/Actors/ItemBase.h"
-#include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Attributes/MonsterAttribute.h"
 #include "Survivor/Character/SurvivorCharacter.h"
 #include "Survivor/Config/ConfigSystem.h"
 #include "Survivor/Config/MonsterConfig.h"
@@ -37,17 +36,16 @@ void AMonsterBase::PostInitializeComponents()
 	}
 
 	// reset attributes
-	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
-	check(ConfigSystem);
+	auto ConfigSystem = UConfigSystem::Get(this);
 	auto Config = ConfigSystem->FindMonsterConfig(MonsterConfig.RowName);
 	check(Config);
 
-	UBaseAttribute* Attributes = const_cast<UBaseAttribute*>(AbilitySystem->AddSet<UBaseAttribute>());
-	check(Attributes);
+	auto MonsterAttributes = const_cast<UMonsterAttribute*>(AbilitySystem->AddSet<UMonsterAttribute>());
+	check(MonsterAttributes);
 
-	Attributes->SetHp(Config->BaseHp);
-	Attributes->SetMaxHp(Config->BaseHp);
-	Attributes->SetDamage(Config->BaseDamage);
+	MonsterAttributes->SetHp(Config->BaseHp);
+	MonsterAttributes->SetMaxHp(Config->BaseHp);
+	MonsterAttributes->SetBaseDamage(Config->BaseDamage);
 
 	// bind events
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &AMonsterBase::OnHpChanged);
@@ -72,7 +70,12 @@ void AMonsterBase::OnHpChanged(const FOnAttributeChangeData& Data)
 
 void AMonsterBase::SpawnExp()
 {
-	GetWorld()->SpawnActor<AItemBase>(ExpItemClass, GetActorLocation(), GetActorRotation());
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.Owner = this;
+	SpawnParams.Instigator = this;
+
+	auto ItemBase = GetWorld()->SpawnActor<AItemBase>(ExpItemClass, GetActorLocation(), GetActorRotation(), SpawnParams);
 }
 
 void AMonsterBase::OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,

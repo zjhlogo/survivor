@@ -25,6 +25,7 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
+	static UConfigSystem* Get(const UObject* WorldContextObject);
 	const FCharacterLevelConfig* FindCharacterLevelConfig(int32 Lv);
 	const FDamageTypeConfig* FindDamageTypeConfig(int32 TypeId);
 	const FWeaponTypeConfig* FindWeaponTypeConfig(int32 TypeId);
@@ -47,7 +48,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	UDataTable* DtWeaponBulletLevel{};
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	UDataTable* DtMonster{};
 };

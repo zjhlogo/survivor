@@ -12,7 +12,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
-#include "Kismet/GameplayStatics.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
 #include "Survivor/Config/ConfigSystem.h"
@@ -72,18 +71,17 @@ void ASurvivorCharacter::PostInitializeComponents()
 	}
 
 	// reset attributes
-	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
-	check(ConfigSystem);
+	auto ConfigSystem = UConfigSystem::Get(this);
 	auto LevelConfig = ConfigSystem->FindCharacterLevelConfig(1);
 	check(LevelConfig);
 
-	UCharacterAttribute* Attributes = const_cast<UCharacterAttribute*>(AbilitySystem->AddSet<UCharacterAttribute>());
-	check(Attributes);
+	auto CharacterAttribute = const_cast<UCharacterAttribute*>(AbilitySystem->AddSet<UCharacterAttribute>());
+	check(CharacterAttribute);
 
-	Attributes->SetHp(LevelConfig->BaseHp);
-	Attributes->SetMaxHp(LevelConfig->BaseHp);
-	Attributes->SetLevel(1);
-	Attributes->SetExp(0);
+	CharacterAttribute->SetHp(LevelConfig->BaseHp);
+	CharacterAttribute->SetMaxHp(LevelConfig->BaseHp);
+	CharacterAttribute->SetLevel(1);
+	CharacterAttribute->SetWeaponLevelCat1(1);
 
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);

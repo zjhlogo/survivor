@@ -20,6 +20,5 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	float DamageAmount{-5.0f};
-
+	int32 WeaponCategory{1};
 };

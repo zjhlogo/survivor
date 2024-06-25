@@ -16,7 +16,7 @@ AProjectileBase::AProjectileBase()
 
 	StaticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComp"));
 	RootComponent = StaticMeshComp;
-	StaticMeshComp->SetCollisionProfileName(FSurvivorDefine::CollisionProfilePawnProjectile);
+	StaticMeshComp->SetCollisionProfileName(FSurvivorDefine::CollisionProfileCharacterProjectile);
 	StaticMeshComp->CanCharacterStepUpOn = ECB_No;
 	StaticMeshComp->SetGenerateOverlapEvents(false);
 
@@ -27,20 +27,37 @@ AProjectileBase::AProjectileBase()
 	MovementComp->bInitialVelocityInLocalSpace = true;
 }
 
+void AProjectileBase::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	// ignore caster collision
+	StaticMeshComp->IgnoreActorWhenMoving(GetInstigator(), true);
+	OnActorHit.AddDynamic(this, &AProjectileBase::OnHit);
+}
+
 // Called when the game starts or when spawned
 void AProjectileBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ignore caster collision
-	StaticMeshComp->OnComponentHit.AddDynamic(this, &AProjectileBase::OnHit);
-	StaticMeshComp->IgnoreActorWhenMoving(GetInstigator(), true);
 }
 
-void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void AProjectileBase::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (UAbilitySystemComponent* Ability = OtherActor->FindComponentByClass<UAbilitySystemComponent>())
+	if (auto TargetAsc = OtherActor->FindComponentByClass<UAbilitySystemComponent>())
 	{
-		Ability->ApplyGameplayEffectToSelf(HitGe.GetDefaultObject(), 0, {});
+		auto Pawn = GetInstigator();
+		if (!ensure(Pawn))
+		{
+			return;
+		}
+
+		auto SourceAsc = Pawn->FindComponentByClass<UAbilitySystemComponent>();
+		if (!ensure(SourceAsc))
+		{
+			return;
+		}
+
+		SourceAsc->ApplyGameplayEffectToTarget(HitGe.GetDefaultObject(), TargetAsc);
 	}
 }

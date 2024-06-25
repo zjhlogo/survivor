@@ -6,7 +6,6 @@
 #include "AbilitySystemComponent.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
-#include "Kismet/GameplayStatics.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Config/ConfigSystem.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
@@ -16,8 +15,7 @@ void UIngameHudWidget::OnActorOwnerSet()
 	UAbilitySystemComponent* AbilitySystemCom = ActorOwner->FindComponentByClass<UAbilitySystemComponent>();
 	check(AbilitySystemCom);
 
-	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
-	check(ConfigSystem);
+	auto ConfigSystem = UConfigSystem::Get(this);
 
 	CurrHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetHpAttribute());
 	MaxHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetMaxHpAttribute());
@@ -66,8 +64,7 @@ void UIngameHudWidget::OnLevelChanged(const FOnAttributeChangeData& Data)
 {
 	Level = Data.NewValue;
 
-	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
-	check(ConfigSystem);
+	auto ConfigSystem = UConfigSystem::Get(this);
 	CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(Level);
 
 	UpdateLevelView();

@@ -32,12 +32,12 @@ public:
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, ExternalDamageFactor);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData ExternalDamageFactor;
-	
+
 	// 局内武器伤害加成
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, InternalDamageFactor);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData InternalDamageFactor;
-	
+
 	// 暴击伤害
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, CriticalDamage);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
@@ -77,4 +77,14 @@ public:
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, Lucky);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData Lucky;
+
+	// 武器类型1等级
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, WeaponLevelCat1)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FGameplayAttributeData WeaponLevelCat1;
+
+	// 武器类型2等级
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, WeaponLevelCat2)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FGameplayAttributeData WeaponLevelCat2;
 };

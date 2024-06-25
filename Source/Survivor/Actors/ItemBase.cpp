@@ -41,9 +41,9 @@ void AItemBase::Tick(float DeltaSeconds)
 		// apply item pick effect
 		if (UGameplayEffect* ClassInstance = PickedGe.GetDefaultObject())
 		{
-			if (UAbilitySystemComponent* Ability = PawnCollector->FindComponentByClass<UAbilitySystemComponent>())
+			if (auto CharacterAsc = PawnCollector->FindComponentByClass<UAbilitySystemComponent>())
 			{
-				Ability->ApplyGameplayEffectToSelf(ClassInstance, 0, {});
+				CharacterAsc->ApplyGameplayEffectToSelf(ClassInstance, 0, {});
 			}
 		}
 

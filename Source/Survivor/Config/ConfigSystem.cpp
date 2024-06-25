@@ -10,6 +10,7 @@
 #include "WeaponBulletCategoryConfig.h"
 #include "WeaponBulletLevelConfig.h"
 #include "MonsterConfig.h"
+#include "Kismet/GameplayStatics.h"
 
 void UConfigSystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -19,6 +20,13 @@ void UConfigSystem::Initialize(FSubsystemCollectionBase& Collection)
 void UConfigSystem::Deinitialize()
 {
 	Super::Deinitialize();
+}
+
+UConfigSystem* UConfigSystem::Get(const UObject* WorldContextObject)
+{
+	UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(WorldContextObject)->GetSubsystem<UConfigSystem>();
+	check(ConfigSystem)
+	return ConfigSystem;
 }
 
 const FCharacterLevelConfig* UConfigSystem::FindCharacterLevelConfig(int32 Lv)

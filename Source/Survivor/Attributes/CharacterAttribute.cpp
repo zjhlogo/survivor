@@ -3,7 +3,6 @@
 
 #include "CharacterAttribute.h"
 #include "GameplayEffectExtension.h"
-#include "Kismet/GameplayStatics.h"
 #include "Survivor/Config/ConfigSystem.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
 
@@ -19,8 +18,7 @@ bool UCharacterAttribute::OnPostGameplayEffectExecute(const FGameplayEffectModCa
 		float CurrExp = GetExp();
 		float CurrLevel = GetLevel();
 
-		UConfigSystem* ConfigSystem = UGameplayStatics::GetGameInstance(this)->GetSubsystem<UConfigSystem>();
-		check(ConfigSystem);
+		auto ConfigSystem = UConfigSystem::Get(this);
 
 		// get level config
 		if (const FCharacterLevelConfig* CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(CurrLevel))

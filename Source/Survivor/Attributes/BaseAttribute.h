@@ -45,11 +45,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData MaxHp;
 
-	// 伤害
-	ATTRIBUTE_ACCESSORS(UBaseAttribute, Damage);
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData Damage;
-
 	// 移动速度
 	ATTRIBUTE_ACCESSORS(UBaseAttribute, MoveSpeed);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
