@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseAttribute.h"
+#include "PawnBaseAttribute.h"
 #include "CharacterAttribute.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SURVIVOR_API UCharacterAttribute : public UBaseAttribute
+class SURVIVOR_API UCharacterAttribute : public UPawnBaseAttribute
 {
 	GENERATED_BODY()
 

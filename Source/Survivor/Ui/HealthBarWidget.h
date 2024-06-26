@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "SurvivorWidgetBase.h"
-#include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "HealthBarWidget.generated.h"
 
 class UProgressBar;

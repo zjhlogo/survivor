@@ -19,6 +19,9 @@ public:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
+	UFUNCTION(BlueprintCallable)
+	void SetLevelUpCharacter(ACharacter* Character);
+
 private:
 	UFUNCTION()
 	void OnButtonClicked();
@@ -32,4 +35,7 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UButton* BtnChoice2;
+
+	UPROPERTY()
+	ACharacter* LevelUpCharacter{};
 };

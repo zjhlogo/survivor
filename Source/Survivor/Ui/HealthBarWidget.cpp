@@ -13,12 +13,12 @@ void UHealthBarWidget::OnActorOwnerSet()
 		return;
 	}
 
-	CurrHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetHpAttribute());
-	MaxHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetMaxHpAttribute());
+	CurrHp = AbilitySystemCom->GetNumericAttribute(UPawnBaseAttribute::GetHpAttribute());
+	MaxHp = AbilitySystemCom->GetNumericAttribute(UPawnBaseAttribute::GetMaxHpAttribute());
 	UpdateHpView();
 
-	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &UHealthBarWidget::OnHpChanged);
-	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetMaxHpAttribute()).AddUObject(this, &UHealthBarWidget::OnMaxHpChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &UHealthBarWidget::OnHpChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetMaxHpAttribute()).AddUObject(this, &UHealthBarWidget::OnMaxHpChanged);
 }
 
 void UHealthBarWidget::OnHpChanged(const FOnAttributeChangeData& Data)

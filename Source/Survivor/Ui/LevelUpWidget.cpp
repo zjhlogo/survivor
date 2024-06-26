@@ -3,8 +3,11 @@
 
 #include "LevelUpWidget.h"
 
+#include "AbilitySystemComponent.h"
 #include "Components/Button.h"
+#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
+#include "Survivor/Attributes/BulletWeaponAttribute.h"
 
 void ULevelUpWidget::NativeConstruct()
 {
@@ -22,7 +25,21 @@ void ULevelUpWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
+void ULevelUpWidget::SetLevelUpCharacter(ACharacter* Character)
+{
+	LevelUpCharacter = Character;
+}
+
 void ULevelUpWidget::OnButtonClicked()
 {
+	// TODO: upgrade ability by choice
+
+	auto CharacterAsc = LevelUpCharacter->FindComponentByClass<UAbilitySystemComponent>();
+	if (ensure(CharacterAsc))
+	{
+		auto OldLevel = CharacterAsc->GetNumericAttribute(UBulletWeaponAttribute::GetNumLineAttribute());
+		CharacterAsc->SetNumericAttributeBase(UBulletWeaponAttribute::GetNumLineAttribute(), OldLevel + 1);
+	}
+
 	RemoveFromParent();
 }

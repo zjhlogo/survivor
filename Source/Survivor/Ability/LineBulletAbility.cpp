@@ -3,7 +3,33 @@
 
 #include "LineBulletAbility.h"
 
+#include "AbilitySystemComponent.h"
 #include "Survivor/Actors/ProjectileBase.h"
+#include "Survivor/Attributes/BulletWeaponAttribute.h"
+
+void ULineBulletAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
+{
+	Super::OnGiveAbility(ActorInfo, Spec);
+
+	if (!BulletAttribute)
+	{
+		BulletAttribute = NewObject<UBulletWeaponAttribute>(ActorInfo->OwnerActor.Get());
+		BulletAttribute->InitNumLine(LineCount);
+	}
+
+	ActorInfo->AbilitySystemComponent->AddSpawnedAttribute(BulletAttribute);
+}
+
+void ULineBulletAbility::OnRemoveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
+{
+	if (BulletAttribute)
+	{
+		ActorInfo->AbilitySystemComponent->RemoveSpawnedAttribute(BulletAttribute);
+		BulletAttribute = nullptr;
+	}
+
+	Super::OnRemoveAbility(ActorInfo, Spec);
+}
 
 void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                          const FGameplayAbilityActorInfo* ActorInfo,
@@ -24,8 +50,8 @@ void ULineBulletAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 	{
 		return;
 	}
-	
-	int NumBulletToFire = LineCount;
+
+	int NumBulletToFire = static_cast<int>(ActorInfo->AbilitySystemComponent->GetNumericAttribute(UBulletWeaponAttribute::GetNumLineAttribute()));
 	double OffsetRotation = 0.0;
 	if (bRotate)
 	{

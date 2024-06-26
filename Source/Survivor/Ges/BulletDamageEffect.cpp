@@ -3,7 +3,7 @@
 
 #include "BulletDamageEffect.h"
 
-#include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Config/ConfigSystem.h"
 #include "Survivor/Config/WeaponBulletLevelConfig.h"
@@ -36,7 +36,7 @@ void UBulletDamageEffect::Execute_Implementation(const FGameplayEffectCustomExec
 		return;
 	}
 
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UBaseAttribute::GetHpAttribute(),
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UPawnBaseAttribute::GetHpAttribute(),
 	                                                                    EGameplayModOp::Additive,
 	                                                                    -WeaponLevelConfig->BaseDamage));
 }

@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Engine/LocalPlayer.h"
 
 ASurvivorPlayerController::ASurvivorPlayerController()
 {

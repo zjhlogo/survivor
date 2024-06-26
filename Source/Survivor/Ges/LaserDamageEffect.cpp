@@ -3,7 +3,7 @@
 
 #include "LaserDamageEffect.h"
 
-#include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Attributes/PawnBaseAttribute.h"
 
 void ULaserDamageEffect::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
                                                 FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
@@ -13,6 +13,6 @@ void ULaserDamageEffect::Execute_Implementation(const FGameplayEffectCustomExecu
 	if (ensure(GWorld))
 	{
 		float Damage = GWorld->GetDeltaSeconds() * DamageSpeed;
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UBaseAttribute::GetHpAttribute(), EGameplayModOp::Additive, Damage));
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UPawnBaseAttribute::GetHpAttribute(), EGameplayModOp::Additive, Damage));
 	}
 }

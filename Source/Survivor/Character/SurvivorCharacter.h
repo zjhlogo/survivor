@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "SurvivorCharacter.generated.h"
 
+class UCharacterAttribute;
 struct FOnAttributeChangeData;
 class USphereComponent;
 class USurvivorBaseAbility;
@@ -64,4 +65,7 @@ private:
 	TArray<TSubclassOf<USurvivorBaseAbility>> GainAbilitiesOnBirth;
 	
 	uint8 bIsDead : 1;
+
+	UPROPERTY()
+	UCharacterAttribute* CharacterAttribute{};
 };

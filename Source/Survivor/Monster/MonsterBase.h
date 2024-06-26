@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "MonsterBase.generated.h"
 
+class UMonsterAttribute;
 class USurvivorWidgetComponent;
 class AItemBase;
 class UWidgetComponent;
@@ -65,4 +66,7 @@ private:
 	TSubclassOf<UGameplayEffect> GeCastToCharacter;
 
 	uint8 bIsDead : 1;
+
+	UPROPERTY()
+	UMonsterAttribute* MonsterAttribute{};
 };

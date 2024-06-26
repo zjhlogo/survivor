@@ -40,15 +40,14 @@ void AMonsterBase::PostInitializeComponents()
 	auto Config = ConfigSystem->FindMonsterConfig(MonsterConfig.RowName);
 	check(Config);
 
-	auto MonsterAttributes = const_cast<UMonsterAttribute*>(AbilitySystem->AddSet<UMonsterAttribute>());
-	check(MonsterAttributes);
-
-	MonsterAttributes->SetHp(Config->BaseHp);
-	MonsterAttributes->SetMaxHp(Config->BaseHp);
-	MonsterAttributes->SetBaseDamage(Config->BaseDamage);
+	MonsterAttribute = NewObject<UMonsterAttribute>(this);
+	MonsterAttribute->InitHp(Config->BaseHp);
+	MonsterAttribute->InitMaxHp(Config->BaseHp);
+	MonsterAttribute->InitBaseDamage(Config->BaseDamage);
+	AbilitySystem->AddSpawnedAttribute(MonsterAttribute);
 
 	// bind events
-	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &AMonsterBase::OnHpChanged);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &AMonsterBase::OnHpChanged);
 
 	if (GeCastToCharacter.GetDefaultObject() != nullptr)
 	{

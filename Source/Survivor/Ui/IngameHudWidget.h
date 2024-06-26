@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "SurvivorWidgetBase.h"
-#include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "IngameHudWidget.generated.h"
 
 struct FCharacterLevelConfig;
@@ -40,6 +40,12 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UTextBlock* TxtLevel;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtHp;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtExp;
 
 	float CurrHp;
 	float MaxHp;

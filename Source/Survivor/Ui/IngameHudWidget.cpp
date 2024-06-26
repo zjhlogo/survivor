@@ -17,8 +17,8 @@ void UIngameHudWidget::OnActorOwnerSet()
 
 	auto ConfigSystem = UConfigSystem::Get(this);
 
-	CurrHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetHpAttribute());
-	MaxHp = AbilitySystemCom->GetNumericAttribute(UBaseAttribute::GetMaxHpAttribute());
+	CurrHp = AbilitySystemCom->GetNumericAttribute(UPawnBaseAttribute::GetHpAttribute());
+	MaxHp = AbilitySystemCom->GetNumericAttribute(UPawnBaseAttribute::GetMaxHpAttribute());
 	CurrExp = AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetExpAttribute());
 	Level = static_cast<int>(AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetLevelAttribute()));
 	CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(Level);
@@ -26,8 +26,8 @@ void UIngameHudWidget::OnActorOwnerSet()
 	UpdateExpView();
 	UpdateLevelView();
 
-	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &UIngameHudWidget::OnHpChanged);
-	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetMaxHpAttribute()).AddUObject(this, &UIngameHudWidget::OnMaxHpChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &UIngameHudWidget::OnHpChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetMaxHpAttribute()).AddUObject(this, &UIngameHudWidget::OnMaxHpChanged);
 	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetExpAttribute()).AddUObject(this, &UIngameHudWidget::OnExpChanged);
 	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &UIngameHudWidget::OnLevelChanged);
 }
@@ -47,6 +47,7 @@ void UIngameHudWidget::OnMaxHpChanged(const FOnAttributeChangeData& Data)
 void UIngameHudWidget::UpdateHpView()
 {
 	PbrHp->SetPercent(CurrHp / MaxHp);
+	TxtHp->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_Hp", "{0}/{1}"), CurrHp, MaxHp));
 }
 
 void UIngameHudWidget::OnExpChanged(const FOnAttributeChangeData& Data)
@@ -58,6 +59,7 @@ void UIngameHudWidget::OnExpChanged(const FOnAttributeChangeData& Data)
 void UIngameHudWidget::UpdateExpView()
 {
 	PbrExp->SetPercent(CurrExp / CurrLevelConfig->LevelUpExp);
+	TxtExp->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_Exp", "{0}/{1}"), CurrExp, CurrLevelConfig->LevelUpExp));
 }
 
 void UIngameHudWidget::OnLevelChanged(const FOnAttributeChangeData& Data)

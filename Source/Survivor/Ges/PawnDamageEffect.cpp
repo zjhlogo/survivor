@@ -3,7 +3,7 @@
 
 #include "PawnDamageEffect.h"
 
-#include "Survivor/Attributes/BaseAttribute.h"
+#include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "Survivor/Util/DebugUtil.h"
 
 void UPawnDamageEffect::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
@@ -12,5 +12,5 @@ void UPawnDamageEffect::Execute_Implementation(const FGameplayEffectCustomExecut
 	Super::Execute_Implementation(ExecutionParams, OutExecutionOutput);
 
 	PRINT_R("Character Damaged: {0}", DamageAmount);
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UBaseAttribute::GetHpAttribute(), EGameplayModOp::Additive, DamageAmount));
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UPawnBaseAttribute::GetHpAttribute(), EGameplayModOp::Additive, DamageAmount));
 }

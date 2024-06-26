@@ -75,15 +75,14 @@ void ASurvivorCharacter::PostInitializeComponents()
 	auto LevelConfig = ConfigSystem->FindCharacterLevelConfig(1);
 	check(LevelConfig);
 
-	auto CharacterAttribute = const_cast<UCharacterAttribute*>(AbilitySystem->AddSet<UCharacterAttribute>());
-	check(CharacterAttribute);
+	CharacterAttribute = NewObject<UCharacterAttribute>(this);
+	CharacterAttribute->InitHp(LevelConfig->BaseHp);
+	CharacterAttribute->InitMaxHp(LevelConfig->BaseHp);
+	CharacterAttribute->InitLevel(1);
+	CharacterAttribute->InitWeaponLevelCat1(1);
+	AbilitySystem->AddSpawnedAttribute(CharacterAttribute);
 
-	CharacterAttribute->SetHp(LevelConfig->BaseHp);
-	CharacterAttribute->SetMaxHp(LevelConfig->BaseHp);
-	CharacterAttribute->SetLevel(1);
-	CharacterAttribute->SetWeaponLevelCat1(1);
-
-	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);
 }
 
