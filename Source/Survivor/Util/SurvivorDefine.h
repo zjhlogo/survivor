@@ -10,6 +10,7 @@
 class FSurvivorDefine
 {
 public:
+	// collision profiles
 	inline static const FName CollisionProfileNoCollision{TEXT("NoCollision")};
 	inline static const FName CollisionProfileCharacter{TEXT("Pawn")};
 	inline static const FName CollisionProfileMonster{TEXT("Enemy")};
@@ -23,6 +24,10 @@ public:
 	inline static const FName AttributeTagCharacter{TEXT("Attribute.Character")};
 	inline static const FName AttributeTagMonster{TEXT("Attribute.Monster")};
 
+	// constants
+	static const float DefaultPickupRadius;
+	static const float DefaultMovementSpeed;
+	
 	static bool IsGameRunning();
 
 	static void CalculateAccumulateWeights(TArray<float>& OutAccumulateWeights, const TArray<float>& Weights);

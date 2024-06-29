@@ -36,6 +36,8 @@ public:
 protected:
 	void OnHpChanged(const FOnAttributeChangeData& Data);
 	void OnLevelUp(const FOnAttributeChangeData& Data);
+	void OnPickupRangeFactorChanged(const FOnAttributeChangeData& Data);
+	void OnMovementSpeedFactorChanged(const FOnAttributeChangeData& Data);
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnDead();

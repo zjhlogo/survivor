@@ -48,7 +48,7 @@ ASurvivorCharacter::ASurvivorCharacter()
 	// setup item picker
 	ItemPicker = CreateDefaultSubobject<USphereComponent>(TEXT("ItemPicker"));
 	ItemPicker->SetupAttachment(RootComponent);
-	ItemPicker->InitSphereRadius(200.0f);
+	ItemPicker->InitSphereRadius(FSurvivorDefine::DefaultPickupRadius);
 	ItemPicker->CanCharacterStepUpOn = ECB_No;
 	ItemPicker->SetCollisionProfileName(FSurvivorDefine::CollisionProfileItemPicker);
 
@@ -80,11 +80,17 @@ void ASurvivorCharacter::PostInitializeComponents()
 	CharacterAttribute->InitLevel(1);
 	CharacterAttribute->InitWeaponLevelCat1(1);
 	CharacterAttribute->InitExpFactor(1);
+	CharacterAttribute->InitPickupRangeFactor(1);
+	CharacterAttribute->InitMoveSpeedFactor(1);
 	AbilitySystem->AddSpawnedAttribute(CharacterAttribute);
 	AbilitySystem->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagCharacter));
 
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetPickupRangeFactorAttribute()).AddUObject(this,
+		&ASurvivorCharacter::OnPickupRangeFactorChanged);
+	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetMoveSpeedFactorAttribute()).AddUObject(this,
+		&ASurvivorCharacter::OnMovementSpeedFactorChanged);
 }
 
 void ASurvivorCharacter::BeginPlay()
@@ -125,4 +131,14 @@ void ASurvivorCharacter::OnHpChanged(const FOnAttributeChangeData& Data)
 void ASurvivorCharacter::OnLevelUp(const FOnAttributeChangeData& Data)
 {
 	OnLevelUp();
+}
+
+void ASurvivorCharacter::OnPickupRangeFactorChanged(const FOnAttributeChangeData& Data)
+{
+	ItemPicker->InitSphereRadius(FSurvivorDefine::DefaultPickupRadius * Data.NewValue);
+}
+
+void ASurvivorCharacter::OnMovementSpeedFactorChanged(const FOnAttributeChangeData& Data)
+{
+	GetCharacterMovement()->MaxWalkSpeed = FSurvivorDefine::DefaultMovementSpeed * Data.NewValue;
 }

@@ -16,6 +16,7 @@ AItemBase::AItemBase()
 	StaticMeshComp->CanCharacterStepUpOn = ECB_No;
 
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComp"));
+	AbilitySystemComp->SetOwnerActor(this);
 }
 
 void AItemBase::FlyToPawn(TObjectPtr<APawn> Pawn)

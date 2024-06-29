@@ -23,10 +23,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData RecoveryHp;
 
-	// 拾取范围
-	ATTRIBUTE_ACCESSORS(UCharacterAttribute, PickupRange);
+	// 拾取范围加成
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, PickupRangeFactor);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData PickupRange;
+	FGameplayAttributeData PickupRangeFactor;
 
 	// 局外武器伤害加成
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, ExternalDamageFactor);

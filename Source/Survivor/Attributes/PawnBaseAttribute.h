@@ -37,10 +37,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData MaxHp;
 
-	// 移动速度
-	ATTRIBUTE_ACCESSORS(UPawnBaseAttribute, MoveSpeed);
+	// 移动速度加成
+	ATTRIBUTE_ACCESSORS(UPawnBaseAttribute, MoveSpeedFactor);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData MoveSpeed;
+	FGameplayAttributeData MoveSpeedFactor;
 
 	// internal states
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)

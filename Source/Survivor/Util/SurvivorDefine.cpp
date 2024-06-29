@@ -4,6 +4,9 @@
 #include "Editor.h"
 #endif
 
+const float FSurvivorDefine::DefaultPickupRadius = 200.0f;
+const float FSurvivorDefine::DefaultMovementSpeed = 300.0f;
+
 bool FSurvivorDefine::IsGameRunning()
 {
 #if WITH_EDITOR

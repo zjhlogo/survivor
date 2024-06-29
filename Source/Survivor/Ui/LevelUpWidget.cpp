@@ -61,12 +61,12 @@ void ULevelUpWidget::OnButtonClicked(int32 Index)
 	else if (ItemConfig->Category == FName("1020"))
 	{
 		// upgrade moving speed factor
-		CharacterAsc->ApplyModToAttribute(UCharacterAttribute::GetMoveSpeedAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
+		CharacterAsc->ApplyModToAttribute(UCharacterAttribute::GetMoveSpeedFactorAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
 	}
 	else if (ItemConfig->Category == FName("1030"))
 	{
 		// upgrade pick range
-		CharacterAsc->ApplyModToAttribute(UCharacterAttribute::GetPickupRangeAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
+		CharacterAsc->ApplyModToAttribute(UCharacterAttribute::GetPickupRangeFactorAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
 	}
 	else if (ItemConfig->Category == FName("1040"))
 	{
