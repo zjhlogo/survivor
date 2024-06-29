@@ -6,6 +6,8 @@
 #include "SurvivorWidgetBase.h"
 #include "LevelUpWidget.generated.h"
 
+class UTextBlock;
+struct FUpgradeItemConfig;
 class UButton;
 /**
  * 
@@ -20,12 +22,20 @@ public:
 	virtual void NativeDestruct() override;
 
 	UFUNCTION(BlueprintCallable)
-	void SetLevelUpCharacter(ACharacter* Character);
+	void InitView(ACharacter* Character);
 
 private:
 	UFUNCTION()
-	void OnButtonClicked();
-	
+	void OnButton0Clicked() { OnButtonClicked(0); }
+
+	UFUNCTION()
+	void OnButton1Clicked() { OnButtonClicked(1); }
+
+	UFUNCTION()
+	void OnButton2Clicked() { OnButtonClicked(2); }
+
+	void OnButtonClicked(int32 Index);
+
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UButton* BtnChoice0;
@@ -36,6 +46,17 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UButton* BtnChoice2;
 
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtChoice0;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtChoice1;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtChoice2;
+
 	UPROPERTY()
 	ACharacter* LevelUpCharacter{};
+
+	TArray<const FUpgradeItemConfig*> ItemConfigs;
 };

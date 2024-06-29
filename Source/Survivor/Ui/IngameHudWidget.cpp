@@ -7,7 +7,7 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
-#include "Survivor/Config/ConfigSystem.h"
+#include "Survivor/Systems/ConfigSystem.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
 
 void UIngameHudWidget::OnActorOwnerSet()
@@ -15,13 +15,11 @@ void UIngameHudWidget::OnActorOwnerSet()
 	UAbilitySystemComponent* AbilitySystemCom = ActorOwner->FindComponentByClass<UAbilitySystemComponent>();
 	check(AbilitySystemCom);
 
-	auto ConfigSystem = UConfigSystem::Get(this);
-
 	CurrHp = AbilitySystemCom->GetNumericAttribute(UPawnBaseAttribute::GetHpAttribute());
 	MaxHp = AbilitySystemCom->GetNumericAttribute(UPawnBaseAttribute::GetMaxHpAttribute());
 	CurrExp = AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetExpAttribute());
 	Level = static_cast<int>(AbilitySystemCom->GetNumericAttribute(UCharacterAttribute::GetLevelAttribute()));
-	CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(Level);
+	CurrLevelConfig = UConfigSystem::Get()->FindCharacterLevelConfig(Level);
 	UpdateHpView();
 	UpdateExpView();
 	UpdateLevelView();
@@ -66,8 +64,7 @@ void UIngameHudWidget::OnLevelChanged(const FOnAttributeChangeData& Data)
 {
 	Level = Data.NewValue;
 
-	auto ConfigSystem = UConfigSystem::Get(this);
-	CurrLevelConfig = ConfigSystem->FindCharacterLevelConfig(Level);
+	CurrLevelConfig = UConfigSystem::Get()->FindCharacterLevelConfig(Level);
 
 	UpdateLevelView();
 }

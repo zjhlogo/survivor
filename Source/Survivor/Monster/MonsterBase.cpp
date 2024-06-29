@@ -8,7 +8,7 @@
 #include "Survivor/Actors/ItemBase.h"
 #include "Survivor/Attributes/MonsterAttribute.h"
 #include "Survivor/Character/SurvivorCharacter.h"
-#include "Survivor/Config/ConfigSystem.h"
+#include "Survivor/Systems/ConfigSystem.h"
 #include "Survivor/Config/MonsterConfig.h"
 #include "Survivor/Ui/SurvivorWidgetComponent.h"
 #include "Survivor/Util/SurvivorDefine.h"
@@ -36,15 +36,15 @@ void AMonsterBase::PostInitializeComponents()
 	}
 
 	// reset attributes
-	auto ConfigSystem = UConfigSystem::Get(this);
-	auto Config = ConfigSystem->FindMonsterConfig(MonsterConfig.RowName);
-	check(Config);
+	auto MonsterCfg = UConfigSystem::Get()->FindMonsterConfig(MonsterConfig.RowName);
+	check(MonsterCfg);
 
 	MonsterAttribute = NewObject<UMonsterAttribute>(this);
-	MonsterAttribute->InitHp(Config->BaseHp);
-	MonsterAttribute->InitMaxHp(Config->BaseHp);
-	MonsterAttribute->InitBaseDamage(Config->BaseDamage);
+	MonsterAttribute->InitHp(MonsterCfg->BaseHp);
+	MonsterAttribute->InitMaxHp(MonsterCfg->BaseHp);
+	MonsterAttribute->InitBaseDamage(MonsterCfg->BaseDamage);
 	AbilitySystem->AddSpawnedAttribute(MonsterAttribute);
+	AbilitySystem->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagMonster));
 
 	// bind events
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &AMonsterBase::OnHpChanged);

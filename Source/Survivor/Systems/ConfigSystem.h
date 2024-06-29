@@ -6,6 +6,8 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ConfigSystem.generated.h"
 
+struct FUpgradeItemConfig;
+struct FUpgradeCategoryConfig;
 struct FMonsterConfig;
 struct FWeaponBulletLevelConfig;
 struct FWeaponBulletCategoryConfig;
@@ -16,16 +18,19 @@ class UDataTable;
 /**
  * 
  */
-UCLASS(Blueprintable, Abstract)
+UCLASS()
 class SURVIVOR_API UConfigSystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
 public:
+	UConfigSystem();
+	
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
-	static UConfigSystem* Get(const UObject* WorldContextObject);
+	FORCEINLINE static UConfigSystem* Get() { return Instance; }
+
 	const FCharacterLevelConfig* FindCharacterLevelConfig(int32 Lv);
 	const FDamageTypeConfig* FindDamageTypeConfig(int32 TypeId);
 	const FWeaponTypeConfig* FindWeaponTypeConfig(int32 TypeId);
@@ -33,22 +38,36 @@ public:
 	const FWeaponBulletLevelConfig* FindWeaponBulletLevelConfig(int32 Category, int32 Lv);
 	const FMonsterConfig* FindMonsterConfig(const FName& Id);
 
+	const FUpgradeCategoryConfig* FindUpgradeCategoryConfig(const FName& Id);
+	void ForEachUpgradeCategoryConfig(const TFunctionRef<void (const FName& Key, const FUpgradeCategoryConfig& Value)>& Cb);
+
+	const FUpgradeItemConfig* FindUpgradeItemConfig(const FName& Id);
+	void ForEachUpgradeItemConfig(const TFunctionRef<void (const FName& Key, const FUpgradeItemConfig& Value)>& Cb);
+
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY()
 	UDataTable* DtCharacterLevel{};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY()
 	UDataTable* DtDamageType{};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY()
 	UDataTable* DtWeaponType{};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY()
 	UDataTable* DtWeaponBulletCategory{};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY()
 	UDataTable* DtWeaponBulletLevel{};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY()
 	UDataTable* DtMonster{};
+
+	UPROPERTY()
+	UDataTable* DtUpgradeCategory{};
+
+	UPROPERTY()
+	UDataTable* DtUpgradeItem{};
+
+	static UConfigSystem* Instance;
 };

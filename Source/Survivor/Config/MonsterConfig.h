@@ -16,14 +16,14 @@ struct FMonsterConfig : public FTableRowBase
 	FString Desc;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseHp;
+	float BaseHp{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseDamage;
+	float BaseDamage{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 Ai;
+	int32 Ai{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float DropExp;
+	float DropExp{};
 };

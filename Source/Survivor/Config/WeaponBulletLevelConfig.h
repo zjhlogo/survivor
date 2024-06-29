@@ -10,17 +10,17 @@ struct FWeaponBulletLevelConfig : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 CategoryId;
+	int32 CategoryId{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 Level;
+	int32 Level{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseDamage;
+	float BaseDamage{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseCriticalDamage;
+	float BaseCriticalDamage{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseCriticalFactor;
+	float BaseCriticalFactor{};
 };

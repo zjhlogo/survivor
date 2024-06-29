@@ -10,8 +10,8 @@ struct FCharacterLevelConfig : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseHp;
+	float BaseHp{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 LevelUpExp;
+	int32 LevelUpExp{};
 };

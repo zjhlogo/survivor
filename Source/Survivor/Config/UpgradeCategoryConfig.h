@@ -13,5 +13,8 @@ struct FUpgradeCategoryConfig : public FTableRowBase
 	FString Desc;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float Probability;
+	float Probability{};
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FName ConditionTag;
 };

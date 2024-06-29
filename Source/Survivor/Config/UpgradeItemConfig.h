@@ -2,22 +2,22 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "UpgradeListConfig.generated.h"
+#include "UpgradeItemConfig.generated.h"
 
 USTRUCT(BlueprintType)
-struct FUpgradeListConfig : public FTableRowBase
+struct FUpgradeItemConfig : public FTableRowBase
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 Category;
+	FName Category;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FString Desc;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float Probability;
+	float Probability{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float Param1;
+	float Param1{};
 };

@@ -13,13 +13,13 @@ struct FWeaponBulletCategoryConfig : public FTableRowBase
 	FString Name;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 WeaponType;
+	int32 WeaponType{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float ReloadTime;
+	float ReloadTime{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	int32 MaxReload;
+	int32 MaxReload{};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FString Desc;

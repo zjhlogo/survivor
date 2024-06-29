@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "Survivor/Actors/ProjectileBase.h"
 #include "Survivor/Attributes/BulletWeaponAttribute.h"
+#include "Survivor/Util/SurvivorDefine.h"
 
 void ULineBulletAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -18,6 +19,7 @@ void ULineBulletAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInf
 	}
 
 	ActorInfo->AbilitySystemComponent->AddSpawnedAttribute(BulletAttribute);
+	ActorInfo->AbilitySystemComponent->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagBulletWeapon));
 }
 
 void ULineBulletAbility::OnRemoveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)

@@ -14,7 +14,7 @@
 #include "Engine/World.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
-#include "Survivor/Config/ConfigSystem.h"
+#include "Survivor/Systems/ConfigSystem.h"
 
 ASurvivorCharacter::ASurvivorCharacter()
 {
@@ -71,8 +71,7 @@ void ASurvivorCharacter::PostInitializeComponents()
 	}
 
 	// reset attributes
-	auto ConfigSystem = UConfigSystem::Get(this);
-	auto LevelConfig = ConfigSystem->FindCharacterLevelConfig(1);
+	auto LevelConfig = UConfigSystem::Get()->FindCharacterLevelConfig(1);
 	check(LevelConfig);
 
 	CharacterAttribute = NewObject<UCharacterAttribute>(this);
@@ -81,6 +80,7 @@ void ASurvivorCharacter::PostInitializeComponents()
 	CharacterAttribute->InitLevel(1);
 	CharacterAttribute->InitWeaponLevelCat1(1);
 	AbilitySystem->AddSpawnedAttribute(CharacterAttribute);
+	AbilitySystem->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagCharacter));
 
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);
