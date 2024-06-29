@@ -79,9 +79,6 @@ void ASurvivorCharacter::PostInitializeComponents()
 	CharacterAttribute->InitMaxHp(LevelConfig->BaseHp);
 	CharacterAttribute->InitLevel(1);
 	CharacterAttribute->InitWeaponLevelCat1(1);
-	CharacterAttribute->InitExpFactor(1);
-	CharacterAttribute->InitPickupRangeFactor(1);
-	CharacterAttribute->InitMoveSpeedFactor(1);
 	AbilitySystem->AddSpawnedAttribute(CharacterAttribute);
 	AbilitySystem->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagCharacter));
 
@@ -135,10 +132,10 @@ void ASurvivorCharacter::OnLevelUp(const FOnAttributeChangeData& Data)
 
 void ASurvivorCharacter::OnPickupRangeFactorChanged(const FOnAttributeChangeData& Data)
 {
-	ItemPicker->InitSphereRadius(FSurvivorDefine::DefaultPickupRadius * Data.NewValue);
+	ItemPicker->InitSphereRadius(FSurvivorDefine::DefaultPickupRadius * (1.0f + Data.NewValue));
 }
 
 void ASurvivorCharacter::OnMovementSpeedFactorChanged(const FOnAttributeChangeData& Data)
 {
-	GetCharacterMovement()->MaxWalkSpeed = FSurvivorDefine::DefaultMovementSpeed * Data.NewValue;
+	GetCharacterMovement()->MaxWalkSpeed = FSurvivorDefine::DefaultMovementSpeed * (1.0f + Data.NewValue);
 }

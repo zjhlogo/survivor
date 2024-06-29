@@ -60,8 +60,20 @@ bool UCharacterUpgradeSystem::RandomChooseUpgradableCategories(TArray<FName>& Ou
 	});
 
 	// random choose category by weight OutCategories
-	TArray<int32> Choices;
-	FSurvivorDefine::ChoiceByAccumulateWeights(Choices, AccumulateWeights, MaxCategories);
+	TSet<int32> Choices;
+	for (int i = 0; i < 100; ++i)
+	{
+		auto Index = FSurvivorDefine::ChoiceByAccumulateWeights(AccumulateWeights);
+		if (Choices.Contains(Index))
+		{
+			continue;
+		}
+		Choices.Add(Index);
+		if (Choices.Num() >= MaxCategories)
+		{
+			break;
+		}
+	}
 
 	OutCategories.Empty();
 	for (const auto& Choice : Choices)
@@ -93,5 +105,6 @@ bool UCharacterUpgradeSystem::RandomChooseItemByWeight(TArray<const FUpgradeItem
 {
 	TArray<FName> CategoryConfigs;
 	RandomChooseUpgradableCategories(CategoryConfigs, MaxCategories, Character);
+
 	return RandomChooseItemByWeight(OutItems, CategoryConfigs);
 }

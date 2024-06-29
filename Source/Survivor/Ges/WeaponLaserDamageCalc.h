@@ -4,21 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectExecutionCalculation.h"
-#include "BulletDamageCalc.generated.h"
+#include "WeaponLaserDamageCalc.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SURVIVOR_API UBulletDamageCalc : public UGameplayEffectExecutionCalculation
+class SURVIVOR_API UWeaponLaserDamageCalc : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 
 public:
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	                                    FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
-
-private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	int32 WeaponCategory{1};
 };

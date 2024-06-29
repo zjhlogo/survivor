@@ -8,7 +8,7 @@
 #include "Components/TextBlock.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-#include "Survivor/Attributes/BulletWeaponAttribute.h"
+#include "Survivor/Attributes/WeaponBulletAttribute.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Config/UpgradeItemConfig.h"
 #include "Survivor/Systems/CharacterUpgradeSystem.h"
@@ -76,12 +76,12 @@ void ULevelUpWidget::OnButtonClicked(int32 Index)
 	else if (ItemConfig->Category == FName("2000"))
 	{
 		// upgrade bullet damage factor
-		CharacterAsc->ApplyModToAttribute(UBulletWeaponAttribute::GetDamageFactorAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
+		CharacterAsc->ApplyModToAttribute(UWeaponBulletAttribute::GetDamageFactorAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
 	}
 	else if (ItemConfig->Category == FName("2010"))
 	{
 		// upgrade bullet number of lines
-		CharacterAsc->ApplyModToAttribute(UBulletWeaponAttribute::GetNumLineAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
+		CharacterAsc->ApplyModToAttribute(UWeaponBulletAttribute::GetNumLineAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
 	}
 	else if (ItemConfig->Category == FName("2020"))
 	{

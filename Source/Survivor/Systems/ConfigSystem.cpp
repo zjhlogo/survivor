@@ -9,6 +9,8 @@
 #include "../Config/WeaponTypeConfig.h"
 #include "../Config/WeaponBulletCategoryConfig.h"
 #include "../Config/WeaponBulletLevelConfig.h"
+#include "../Config/WeaponLaserCategoryConfig.h"
+#include "../Config/WeaponLaserLevelConfig.h"
 #include "../Config/MonsterConfig.h"
 #include "../Config/UpgradeCategoryConfig.h"
 #include "../Config/UpgradeItemConfig.h"
@@ -44,6 +46,18 @@ UConfigSystem::UConfigSystem()
 		static ConstructorHelpers::FObjectFinder<UDataTable>
 			Asset(TEXT("/Script/Engine.DataTable'/Game/Config/DT_WeaponBulletLevelConfig.DT_WeaponBulletLevelConfig'"));
 		DtWeaponBulletLevel = Asset.Object;
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UDataTable>
+			Asset(TEXT("/Script/Engine.DataTable'/Game/Config/DT_WeaponLaserCategoryConfig.DT_WeaponLaserCategoryConfig'"));
+		DtWeaponLaserCategory = Asset.Object;
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UDataTable>
+			Asset(TEXT("/Script/Engine.DataTable'/Game/Config/DT_WeaponLaserLevelConfig.DT_WeaponLaserLevelConfig'"));
+		DtWeaponLaserLevel = Asset.Object;
 	}
 
 	{
@@ -90,14 +104,24 @@ const FWeaponTypeConfig* UConfigSystem::FindWeaponTypeConfig(int32 TypeId)
 	return DtWeaponType->FindRow<FWeaponTypeConfig>(FName(*FString::FromInt(TypeId)), TEXT("Config"));
 }
 
-const FWeaponBulletCategoryConfig* UConfigSystem::FindWeaponBulletCategoryConfig(int32 Category)
+const FWeaponBulletCategoryConfig* UConfigSystem::FindWeaponBulletCategoryConfig(const FName& CategoryId)
 {
-	return DtWeaponBulletCategory->FindRow<FWeaponBulletCategoryConfig>(FName(*FString::FromInt(Category)), TEXT("Config"));
+	return DtWeaponBulletCategory->FindRow<FWeaponBulletCategoryConfig>(CategoryId, TEXT("Config"));
 }
 
 const FWeaponBulletLevelConfig* UConfigSystem::FindWeaponBulletLevelConfig(int32 Category, int32 Lv)
 {
 	return DtWeaponBulletLevel->FindRow<FWeaponBulletLevelConfig>(FName(*FString::FromInt(Category * 1000 + Lv)), TEXT("Config"));
+}
+
+const FWeaponLaserCategoryConfig* UConfigSystem::FindWeaponLaserCategoryConfig(const FName& CategoryId)
+{
+	return DtWeaponLaserCategory->FindRow<FWeaponLaserCategoryConfig>(CategoryId, TEXT("Config"));
+}
+
+const FWeaponLaserLevelConfig* UConfigSystem::FindWeaponLaserLevelConfig(int32 Category, int32 Lv)
+{
+	return DtWeaponLaserLevel->FindRow<FWeaponLaserLevelConfig>(FName(*FString::FromInt(Category * 1000 + Lv)), TEXT("Config"));
 }
 
 const FMonsterConfig* UConfigSystem::FindMonsterConfig(const FName& Id)

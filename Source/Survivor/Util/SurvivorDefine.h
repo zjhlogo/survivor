@@ -21,13 +21,14 @@ public:
 
 	// gameplay tags
 	inline static const FName AttributeTagBulletWeapon{TEXT("Attribute.BulletWeapon")};
+	inline static const FName AttributeTagLaserWeapon{TEXT("Attribute.LaserWeapon")};
 	inline static const FName AttributeTagCharacter{TEXT("Attribute.Character")};
 	inline static const FName AttributeTagMonster{TEXT("Attribute.Monster")};
 
 	// constants
 	static const float DefaultPickupRadius;
 	static const float DefaultMovementSpeed;
-	
+
 	static bool IsGameRunning();
 
 	static void CalculateAccumulateWeights(TArray<float>& OutAccumulateWeights, const TArray<float>& Weights);

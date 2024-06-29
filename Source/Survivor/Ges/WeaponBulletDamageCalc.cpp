@@ -1,16 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BulletDamageCalc.h"
+#include "WeaponBulletDamageCalc.h"
 
-#include "Survivor/Attributes/BulletWeaponAttribute.h"
+#include "Survivor/Attributes/WeaponBulletAttribute.h"
 #include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Systems/ConfigSystem.h"
 #include "Survivor/Config/WeaponBulletLevelConfig.h"
-#include "Survivor/Util/DebugUtil.h"
 
-void UBulletDamageCalc::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+void UWeaponBulletDamageCalc::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
                                                FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
 	auto CharacterAsc = ExecutionParams.GetSourceAbilitySystemComponent();
@@ -34,8 +33,9 @@ void UBulletDamageCalc::Execute_Implementation(const FGameplayEffectCustomExecut
 	}
 
 	// 伤害 = 武器伤害 * （局内伤害加成 + 子弹类型武器额外加成）
-	float Damage = WeaponLevelConfig->BaseDamage * (CharacterAsc->GetNumericAttribute(UCharacterAttribute::GetInternalDamageFactorAttribute()) + CharacterAsc->
-		GetNumericAttribute(UBulletWeaponAttribute::GetDamageFactorAttribute()));
-	PRINT_R("Damage: {0}", Damage);
+	float IntDamageFactor = CharacterAsc->GetNumericAttribute(UCharacterAttribute::GetInternalDamageFactorAttribute());
+	float ExtDamageFactor = CharacterAsc->GetNumericAttribute(UCharacterAttribute::GetExternalDamageFactorAttribute());
+	float BulletDamageFactor = CharacterAsc->GetNumericAttribute(UWeaponBulletAttribute::GetDamageFactorAttribute());
+	float Damage = WeaponLevelConfig->BaseDamage * (1.0f + IntDamageFactor + ExtDamageFactor + BulletDamageFactor);
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UPawnBaseAttribute::GetHpAttribute(), EGameplayModOp::Additive, -Damage));
 }

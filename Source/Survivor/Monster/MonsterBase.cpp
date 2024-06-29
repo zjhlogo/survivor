@@ -80,7 +80,7 @@ void AMonsterBase::DeathSpawn()
 	SpawnParams.Instigator = this;
 
 	auto ItemBase = GetWorld()->SpawnActor<AItemBase>(ExpItemClass, GetActorLocation(), GetActorRotation(), SpawnParams);
-	ItemBase->SetSourceActor(this);
+	ItemBase->SetSourceMonsterId(MonsterConfig.RowName);
 }
 
 void AMonsterBase::OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,

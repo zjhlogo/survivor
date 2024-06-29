@@ -4,6 +4,33 @@
 #include "LaserAbility.h"
 
 #include "Survivor/Actors/LaserBase.h"
+#include "Survivor/Attributes/WeaponLaserAttribute.h"
+#include "Survivor/Util/SurvivorDefine.h"
+
+void ULaserAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
+{
+	Super::OnGiveAbility(ActorInfo, Spec);
+
+	if (!LaserAttribute)
+	{
+		LaserAttribute = NewObject<UWeaponLaserAttribute>(ActorInfo->OwnerActor.Get());
+		LaserAttribute->InitNumLine(LineCount);
+	}
+
+	ActorInfo->AbilitySystemComponent->AddSpawnedAttribute(LaserAttribute);
+	ActorInfo->AbilitySystemComponent->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagLaserWeapon));
+}
+
+void ULaserAbility::OnRemoveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
+{
+	if (LaserAttribute)
+	{
+		ActorInfo->AbilitySystemComponent->RemoveSpawnedAttribute(LaserAttribute);
+		LaserAttribute = nullptr;
+	}
+
+	Super::OnRemoveAbility(ActorInfo, Spec);
+}
 
 void ULaserAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                     const FGameplayAbilityActorInfo* ActorInfo,
@@ -25,7 +52,7 @@ void ULaserAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 		return;
 	}
 
-	int NumLaserToFire = LineCount;
+	int NumLaserToFire = static_cast<int>(ActorInfo->AbilitySystemComponent->GetNumericAttribute(UWeaponLaserAttribute::GetNumLineAttribute()));
 	double StepRotation = 360.0 / NumLaserToFire;
 
 	FActorSpawnParameters SpawnParams;

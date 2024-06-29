@@ -6,6 +6,7 @@
 #include "SurvivorBaseAbility.h"
 #include "LaserAbility.generated.h"
 
+class UWeaponLaserAttribute;
 class ALaserBase;
 /**
  * 
@@ -16,6 +17,9 @@ class SURVIVOR_API ULaserAbility : public USurvivorBaseAbility
 	GENERATED_BODY()
 
 public:
+	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
+	virtual void OnRemoveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
+
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 	                             const FGameplayAbilityActorInfo* ActorInfo,
 	                             const FGameplayAbilityActivationInfo ActivationInfo,
@@ -45,4 +49,7 @@ private:
 
 	UPROPERTY()
 	TArray<ALaserBase*> SpawnedLaserList;
+
+	UPROPERTY()
+	UWeaponLaserAttribute* LaserAttribute{};
 };

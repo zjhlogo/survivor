@@ -31,6 +31,9 @@ private:
 	void OnLevelChanged(const FOnAttributeChangeData& Data);
 	void UpdateLevelView();
 
+	void OnInfoAttributeChanged(const FOnAttributeChangeData& Data);
+	void UpdateInfoView();
+
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UProgressBar* PbrHp;
@@ -46,6 +49,21 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UTextBlock* TxtExp;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtSpeedFactor;
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtPickupRangeFactor;
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtExpFactor;
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtInternalDamageFactor;
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtExternalDamageFactor;
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtBulletDamageFactor;
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
+	UTextBlock* TxtLaserDamageFactor;
 
 	float CurrHp;
 	float MaxHp;

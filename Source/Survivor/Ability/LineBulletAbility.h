@@ -6,7 +6,7 @@
 #include "SurvivorBaseAbility.h"
 #include "LineBulletAbility.generated.h"
 
-class UBulletWeaponAttribute;
+class UWeaponBulletAttribute;
 class AProjectileBase;
 /**
  * 
@@ -38,6 +38,6 @@ private:
 	double RotateSpeed{45.0};
 
 	UPROPERTY()
-	UBulletWeaponAttribute* BulletAttribute{};
+	UWeaponBulletAttribute* BulletAttribute{};
 	
 };

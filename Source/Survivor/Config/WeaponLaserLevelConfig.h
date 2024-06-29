@@ -2,10 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "WeaponBulletLevelConfig.generated.h"
+#include "WeaponLaserLevelConfig.generated.h"
 
 USTRUCT(BlueprintType)
-struct FWeaponBulletLevelConfig : public FTableRowBase
+struct FWeaponLaserLevelConfig : public FTableRowBase
 {
 	GENERATED_BODY()
 
@@ -17,10 +17,4 @@ struct FWeaponBulletLevelConfig : public FTableRowBase
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	float BaseDamage{};
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseCriticalDamage{};
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	float BaseCriticalFactor{};
 };

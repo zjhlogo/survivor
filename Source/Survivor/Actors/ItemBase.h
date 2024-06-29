@@ -17,8 +17,8 @@ class SURVIVOR_API AItemBase : public AActor
 public:
 	AItemBase();
 
-	void SetSourceActor(AActor* Actor) { SourceActor = Actor; }
-	AActor* GetSourceActor() { return SourceActor; }
+	void SetSourceMonsterId(const FName& Id) { SourceMonsterId = Id; }
+	const FName& GetSourceMonsterId() { return SourceMonsterId; }
 
 	void FlyToPawn(TObjectPtr<APawn> Pawn);
 	virtual void Tick(float DeltaSeconds) override;
@@ -53,8 +53,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<APawn> PawnCollector;
 
-	UPROPERTY()
-	AActor* SourceActor{};
+	FName SourceMonsterId;
 
 	float ElapsedTime{};
 };

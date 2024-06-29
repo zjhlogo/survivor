@@ -7,8 +7,7 @@
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "Survivor/Config/MonsterConfig.h"
-#include "Survivor/Monster/MonsterBase.h"
-#include "Survivor/Util/DebugUtil.h"
+#include "Survivor/Systems/ConfigSystem.h"
 
 void UCharacterAddExpCalc::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
                                                   FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
@@ -21,14 +20,10 @@ void UCharacterAddExpCalc::Execute_Implementation(const FGameplayEffectCustomExe
 	AItemBase* ItemActor = Cast<AItemBase>(ItemAsc->GetOwnerActor());
 	check(ItemActor);
 
-	AMonsterBase* MonsterActor = Cast<AMonsterBase>(ItemActor->GetSourceActor());
-	if (ensure(MonsterActor))
+	if (const FMonsterConfig* MonsterCfg = UConfigSystem::Get()->FindMonsterConfig(ItemActor->GetSourceMonsterId()))
 	{
-		const FMonsterConfig* MonsterCfg = MonsterActor->GetMonsterConfig();
-		check(MonsterCfg);
-
-		float ExpToAdd = MonsterCfg->DropExp * CharacterAsc->GetNumericAttribute(UCharacterAttribute::GetExpFactorAttribute());
-		PRINT_B("Exp Add: {0}", ExpToAdd);
+		float ExpFactor = CharacterAsc->GetNumericAttribute(UCharacterAttribute::GetExpFactorAttribute());
+		float ExpToAdd = MonsterCfg->DropExp * (1.0f + ExpFactor);
 		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UCharacterAttribute::GetExpAttribute(), EGameplayModOp::Additive, ExpToAdd));
 	}
 }

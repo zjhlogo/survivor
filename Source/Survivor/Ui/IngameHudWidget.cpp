@@ -6,13 +6,15 @@
 #include "AbilitySystemComponent.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
+#include "Survivor/Attributes/WeaponBulletAttribute.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
+#include "Survivor/Attributes/WeaponLaserAttribute.h"
 #include "Survivor/Systems/ConfigSystem.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
 
 void UIngameHudWidget::OnActorOwnerSet()
 {
-	UAbilitySystemComponent* AbilitySystemCom = ActorOwner->FindComponentByClass<UAbilitySystemComponent>();
+	auto AbilitySystemCom = ActorOwner->FindComponentByClass<UAbilitySystemComponent>();
 	check(AbilitySystemCom);
 
 	CurrHp = AbilitySystemCom->GetNumericAttribute(UPawnBaseAttribute::GetHpAttribute());
@@ -23,11 +25,26 @@ void UIngameHudWidget::OnActorOwnerSet()
 	UpdateHpView();
 	UpdateExpView();
 	UpdateLevelView();
+	UpdateInfoView();
 
 	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &UIngameHudWidget::OnHpChanged);
 	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetMaxHpAttribute()).AddUObject(this, &UIngameHudWidget::OnMaxHpChanged);
 	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetExpAttribute()).AddUObject(this, &UIngameHudWidget::OnExpChanged);
 	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &UIngameHudWidget::OnLevelChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetMoveSpeedFactorAttribute()).AddUObject(this,
+		&UIngameHudWidget::OnInfoAttributeChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetPickupRangeFactorAttribute()).AddUObject(this,
+		&UIngameHudWidget::OnInfoAttributeChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetExpFactorAttribute()).AddUObject(this,
+		&UIngameHudWidget::OnInfoAttributeChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetInternalDamageFactorAttribute()).AddUObject(this,
+		&UIngameHudWidget::OnInfoAttributeChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetExternalDamageFactorAttribute()).AddUObject(this,
+		&UIngameHudWidget::OnInfoAttributeChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UWeaponBulletAttribute::GetDamageFactorAttribute()).AddUObject(this,
+		&UIngameHudWidget::OnInfoAttributeChanged);
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UWeaponLaserAttribute::GetDamageFactorAttribute()).AddUObject(this,
+		&UIngameHudWidget::OnInfoAttributeChanged);
 }
 
 void UIngameHudWidget::OnHpChanged(const FOnAttributeChangeData& Data)
@@ -72,4 +89,38 @@ void UIngameHudWidget::OnLevelChanged(const FOnAttributeChangeData& Data)
 void UIngameHudWidget::UpdateLevelView()
 {
 	TxtLevel->SetText(FText::FromString(FString::Printf(TEXT("%d"), Level)));
+}
+
+void UIngameHudWidget::OnInfoAttributeChanged(const FOnAttributeChangeData& Data)
+{
+	UpdateInfoView();
+}
+
+void UIngameHudWidget::UpdateInfoView()
+{
+	auto Asc = ActorOwner->FindComponentByClass<UAbilitySystemComponent>();
+	check(Asc);
+
+	auto MoveSpeedFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetMoveSpeedFactorAttribute());
+	TxtSpeedFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_SpeedFactor", "Speed: {0}%"), MoveSpeedFactor * 100.0f));
+
+	auto PickupRangeFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetPickupRangeFactorAttribute());
+	TxtPickupRangeFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_PickupRangeFactor", "Pickup: {0}%"), PickupRangeFactor * 100.0f));
+
+	auto ExpFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetExpFactorAttribute());
+	TxtExpFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_ExpFactor", "Exp: {0}%"), ExpFactor * 100.0f));
+
+	auto IntDamageFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetInternalDamageFactorAttribute());
+	TxtInternalDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_IntDamageFactor", "Int Damage: {0}%"), IntDamageFactor * 100.0f));
+
+	auto ExtDamageFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetExternalDamageFactorAttribute());
+	TxtExternalDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_ExtDamageFactor", "Ext Damage: {0}%"), ExtDamageFactor * 100.0f));
+
+	auto BulletDamageFactor = Asc->GetNumericAttribute(UWeaponBulletAttribute::GetDamageFactorAttribute());
+	TxtBulletDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_BulletFactor", "Bullet Damage: {0}%"),
+	                                             (1.0f + BulletDamageFactor + IntDamageFactor + ExtDamageFactor) * 100.0f));
+
+	auto LaserDamageFactor = 0.0f;
+	TxtLaserDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_LaserFactor", "Laser Damage: {0}%"),
+	                                            (1.0f + LaserDamageFactor + IntDamageFactor + ExtDamageFactor) * 100.0f));
 }

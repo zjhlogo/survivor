@@ -6,6 +6,8 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ConfigSystem.generated.h"
 
+struct FWeaponLaserLevelConfig;
+struct FWeaponLaserCategoryConfig;
 struct FUpgradeItemConfig;
 struct FUpgradeCategoryConfig;
 struct FMonsterConfig;
@@ -25,7 +27,7 @@ class SURVIVOR_API UConfigSystem : public UGameInstanceSubsystem
 
 public:
 	UConfigSystem();
-	
+
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
@@ -34,8 +36,10 @@ public:
 	const FCharacterLevelConfig* FindCharacterLevelConfig(int32 Lv);
 	const FDamageTypeConfig* FindDamageTypeConfig(int32 TypeId);
 	const FWeaponTypeConfig* FindWeaponTypeConfig(int32 TypeId);
-	const FWeaponBulletCategoryConfig* FindWeaponBulletCategoryConfig(int32 Category);
+	const FWeaponBulletCategoryConfig* FindWeaponBulletCategoryConfig(const FName& CategoryId);
 	const FWeaponBulletLevelConfig* FindWeaponBulletLevelConfig(int32 Category, int32 Lv);
+	const FWeaponLaserCategoryConfig* FindWeaponLaserCategoryConfig(const FName& CategoryId);
+	const FWeaponLaserLevelConfig* FindWeaponLaserLevelConfig(int32 Category, int32 Lv);
 	const FMonsterConfig* FindMonsterConfig(const FName& Id);
 
 	const FUpgradeCategoryConfig* FindUpgradeCategoryConfig(const FName& Id);
@@ -56,9 +60,13 @@ private:
 
 	UPROPERTY()
 	UDataTable* DtWeaponBulletCategory{};
-
 	UPROPERTY()
 	UDataTable* DtWeaponBulletLevel{};
+
+	UPROPERTY()
+	UDataTable* DtWeaponLaserCategory{};
+	UPROPERTY()
+	UDataTable* DtWeaponLaserLevel{};
 
 	UPROPERTY()
 	UDataTable* DtMonster{};
