@@ -14,6 +14,8 @@ AItemBase::AItemBase()
 	RootComponent = StaticMeshComp;
 	StaticMeshComp->SetCollisionProfileName(FSurvivorDefine::CollisionProfileItem);
 	StaticMeshComp->CanCharacterStepUpOn = ECB_No;
+
+	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComp"));
 }
 
 void AItemBase::FlyToPawn(TObjectPtr<APawn> Pawn)
@@ -43,7 +45,7 @@ void AItemBase::Tick(float DeltaSeconds)
 		{
 			if (auto CharacterAsc = PawnCollector->FindComponentByClass<UAbilitySystemComponent>())
 			{
-				CharacterAsc->ApplyGameplayEffectToSelf(ClassInstance, 0, {});
+				AbilitySystemComp->ApplyGameplayEffectToTarget(ClassInstance, CharacterAsc);
 			}
 		}
 

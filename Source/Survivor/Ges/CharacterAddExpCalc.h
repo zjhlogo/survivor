@@ -4,21 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectExecutionCalculation.h"
-#include "PawnDamageEffect.generated.h"
+#include "CharacterAddExpCalc.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SURVIVOR_API UPawnDamageEffect : public UGameplayEffectExecutionCalculation
+class SURVIVOR_API UCharacterAddExpCalc : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 
 public:
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	                                    FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
-
-private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	float DamageAmount{-20.0f};
 };

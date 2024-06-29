@@ -15,6 +15,7 @@ void ULineBulletAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInf
 	if (!BulletAttribute)
 	{
 		BulletAttribute = NewObject<UBulletWeaponAttribute>(ActorInfo->OwnerActor.Get());
+		BulletAttribute->InitDamageFactor(1.0f);
 		BulletAttribute->InitNumLine(LineCount);
 	}
 

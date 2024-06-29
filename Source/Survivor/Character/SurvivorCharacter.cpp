@@ -79,6 +79,7 @@ void ASurvivorCharacter::PostInitializeComponents()
 	CharacterAttribute->InitMaxHp(LevelConfig->BaseHp);
 	CharacterAttribute->InitLevel(1);
 	CharacterAttribute->InitWeaponLevelCat1(1);
+	CharacterAttribute->InitExpFactor(1);
 	AbilitySystem->AddSpawnedAttribute(CharacterAttribute);
 	AbilitySystem->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagCharacter));
 

@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "ItemBase.generated.h"
 
+class UAbilitySystemComponent;
 class UGameplayEffect;
 
 UCLASS()
@@ -16,6 +17,9 @@ class SURVIVOR_API AItemBase : public AActor
 public:
 	AItemBase();
 
+	void SetSourceActor(AActor* Actor) { SourceActor = Actor; }
+	AActor* GetSourceActor() { return SourceActor; }
+
 	void FlyToPawn(TObjectPtr<APawn> Pawn);
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -24,15 +28,18 @@ protected:
 
 	UFUNCTION()
 	void OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,
-						  AActor* OtherActor,
-						  UPrimitiveComponent* OtherComp,
-						  int32 OtherBodyIndex,
-						  bool bFromSweep,
-						  const FHitResult& SweepResult);
+	                               AActor* OtherActor,
+	                               UPrimitiveComponent* OtherComp,
+	                               int32 OtherBodyIndex,
+	                               bool bFromSweep,
+	                               const FHitResult& SweepResult);
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMeshComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	UAbilitySystemComponent* AbilitySystemComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UGameplayEffect> PickedGe;
@@ -45,6 +52,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<APawn> PawnCollector;
+
+	UPROPERTY()
+	AActor* SourceActor{};
 
 	float ElapsedTime{};
 };

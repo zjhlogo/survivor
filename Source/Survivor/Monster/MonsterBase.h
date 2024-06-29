@@ -7,6 +7,7 @@
 #include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "MonsterBase.generated.h"
 
+struct FMonsterConfig;
 class UMonsterAttribute;
 class USurvivorWidgetComponent;
 class AItemBase;
@@ -32,10 +33,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnDead();
 
+	const FMonsterConfig* GetMonsterConfig() const;
+	
 protected:
 	virtual void PostInitializeComponents() override;
 	virtual void OnHpChanged(const FOnAttributeChangeData& Data);
-	virtual void SpawnExp();
+	virtual void DeathSpawn();
 
 	UFUNCTION()
 	void OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,

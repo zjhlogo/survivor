@@ -27,6 +27,11 @@ AMonsterBase::AMonsterBase()
 	bIsDead = false;
 }
 
+const FMonsterConfig* AMonsterBase::GetMonsterConfig() const
+{
+	return UConfigSystem::Get()->FindMonsterConfig(MonsterConfig.RowName);
+}
+
 void AMonsterBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
@@ -60,14 +65,14 @@ void AMonsterBase::OnHpChanged(const FOnAttributeChangeData& Data)
 	if (Data.NewValue <= 0.0f && !bIsDead)
 	{
 		bIsDead = true;
-		SpawnExp();
+		DeathSpawn();
 		GetCapsuleComponent()->SetCollisionProfileName(FSurvivorDefine::CollisionProfileNoCollision);
 		OnMonsterDead.Execute(this);
 		OnDead();
 	}
 }
 
-void AMonsterBase::SpawnExp()
+void AMonsterBase::DeathSpawn()
 {
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -75,6 +80,7 @@ void AMonsterBase::SpawnExp()
 	SpawnParams.Instigator = this;
 
 	auto ItemBase = GetWorld()->SpawnActor<AItemBase>(ExpItemClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+	ItemBase->SetSourceActor(this);
 }
 
 void AMonsterBase::OnOverlappedWithCharacter(UPrimitiveComponent* OverlappedComponent,
