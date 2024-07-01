@@ -2,7 +2,7 @@
 
 
 #include "MonsterSpawnSystem.h"
-#include "../Monster/MonsterBase.h"
+#include "../Actors/MonsterBase.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
 
 void UMonsterSpawnSystem::OnMonsterDead(AMonsterBase* MonsterBase)

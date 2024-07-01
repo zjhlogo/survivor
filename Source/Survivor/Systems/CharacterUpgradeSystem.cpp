@@ -50,7 +50,7 @@ bool UCharacterUpgradeSystem::RandomChooseUpgradableCategories(TArray<FName>& Ou
 	float TotalWeight = 0.0f;
 	UConfigSystem::Get()->ForEachUpgradeCategoryConfig([&](const FName& Key, const FUpgradeCategoryConfig& Value)
 	{
-		if (CharacterAsc->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(Value.ConditionTag)))
+		if (Value.ConditionTag.IsNone() || CharacterAsc->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(Value.ConditionTag)))
 		{
 			AvailableCategories.Add(Key);
 

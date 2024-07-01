@@ -2,16 +2,19 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "DamageTypeConfig.generated.h"
+#include "Weapon200_LaserConfig.generated.h"
 
 USTRUCT(BlueprintType)
-struct FDamageTypeConfig : public FTableRowBase
+struct FWeapon200_LaserConfig : public FTableRowBase
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FString Name;
+	float ReloadTime;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FString Desc;
+	float Duration;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	float Damage;
 };

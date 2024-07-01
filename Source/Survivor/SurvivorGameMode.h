@@ -16,5 +16,5 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	TArray<TSubclassOf<USubsystem>> BlueprintSubSystems;
+	TArray<TSubclassOf<UWorldSubsystem>> WorldSubSystems;
 };

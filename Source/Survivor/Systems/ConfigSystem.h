@@ -6,13 +6,9 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ConfigSystem.generated.h"
 
-struct FWeaponLaserLevelConfig;
-struct FWeaponLaserCategoryConfig;
 struct FUpgradeItemConfig;
 struct FUpgradeCategoryConfig;
 struct FMonsterConfig;
-struct FWeaponBulletLevelConfig;
-struct FWeaponBulletCategoryConfig;
 struct FWeaponTypeConfig;
 struct FDamageTypeConfig;
 struct FCharacterLevelConfig;
@@ -35,11 +31,6 @@ public:
 
 	const FCharacterLevelConfig* FindCharacterLevelConfig(int32 Lv);
 	const FDamageTypeConfig* FindDamageTypeConfig(int32 TypeId);
-	const FWeaponTypeConfig* FindWeaponTypeConfig(int32 TypeId);
-	const FWeaponBulletCategoryConfig* FindWeaponBulletCategoryConfig(const FName& CategoryId);
-	const FWeaponBulletLevelConfig* FindWeaponBulletLevelConfig(int32 Category, int32 Lv);
-	const FWeaponLaserCategoryConfig* FindWeaponLaserCategoryConfig(const FName& CategoryId);
-	const FWeaponLaserLevelConfig* FindWeaponLaserLevelConfig(int32 Category, int32 Lv);
 	const FMonsterConfig* FindMonsterConfig(const FName& Id);
 
 	const FUpgradeCategoryConfig* FindUpgradeCategoryConfig(const FName& Id);
@@ -54,19 +45,6 @@ private:
 
 	UPROPERTY()
 	UDataTable* DtDamageType{};
-
-	UPROPERTY()
-	UDataTable* DtWeaponType{};
-
-	UPROPERTY()
-	UDataTable* DtWeaponBulletCategory{};
-	UPROPERTY()
-	UDataTable* DtWeaponBulletLevel{};
-
-	UPROPERTY()
-	UDataTable* DtWeaponLaserCategory{};
-	UPROPERTY()
-	UDataTable* DtWeaponLaserLevel{};
 
 	UPROPERTY()
 	UDataTable* DtMonster{};

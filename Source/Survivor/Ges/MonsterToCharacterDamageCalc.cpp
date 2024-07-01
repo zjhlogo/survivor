@@ -5,7 +5,7 @@
 
 #include "Survivor/Attributes/PawnBaseAttribute.h"
 #include "Survivor/Config/MonsterConfig.h"
-#include "Survivor/Monster/MonsterBase.h"
+#include "Survivor/Actors/MonsterBase.h"
 
 void UMonsterToCharacterDamageCalc::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
                                                            FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const

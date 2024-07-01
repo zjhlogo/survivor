@@ -9,7 +9,6 @@
 class UCharacterAttribute;
 struct FOnAttributeChangeData;
 class USphereComponent;
-class USurvivorBaseAbility;
 class UGameplayAbility;
 class UAbilitySystemComponent;
 class UCameraComponent;
@@ -25,7 +24,6 @@ public:
 
 	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
 
 	/** Returns TopDownCameraComponent sub-object **/
 	FORCEINLINE UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
@@ -38,7 +36,7 @@ protected:
 	void OnLevelUp(const FOnAttributeChangeData& Data);
 	void OnPickupRangeFactorChanged(const FOnAttributeChangeData& Data);
 	void OnMovementSpeedFactorChanged(const FOnAttributeChangeData& Data);
-	
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnDead();
 
@@ -64,8 +62,8 @@ private:
 
 	// default abilities on birth
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor, meta=(AllowPrivateAccess = "true"))
-	TArray<TSubclassOf<USurvivorBaseAbility>> GainAbilitiesOnBirth;
-	
+	TArray<TSubclassOf<UGameplayAbility>> GainAbilitiesOnBirth;
+
 	uint8 bIsDead : 1;
 
 	UPROPERTY()

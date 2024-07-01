@@ -38,10 +38,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData InternalDamageFactor;
 
-	// 暴击伤害
-	ATTRIBUTE_ACCESSORS(UCharacterAttribute, CriticalDamage);
+	// 物理伤害加成
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, PhysicsDamageFactor);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData CriticalDamage;
+	FGameplayAttributeData PhysicsDamageFactor;
+
+	// 激光伤害加成
+	ATTRIBUTE_ACCESSORS(UCharacterAttribute, LaserDamageFactor);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
+	FGameplayAttributeData LaserDamageFactor;
 
 	// 换弹速度
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, ReloadSpeed);
@@ -71,20 +76,10 @@ public:
 	// 当前等级
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, Level);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData Level;
+	FGameplayAttributeData Level{1};
 
 	// 运气
 	ATTRIBUTE_ACCESSORS(UCharacterAttribute, Lucky);
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
 	FGameplayAttributeData Lucky;
-
-	// 武器类型1等级
-	ATTRIBUTE_ACCESSORS(UCharacterAttribute, WeaponLevelCat1)
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData WeaponLevelCat1;
-
-	// 武器类型2等级
-	ATTRIBUTE_ACCESSORS(UCharacterAttribute, WeaponLevelCat2)
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=survivor)
-	FGameplayAttributeData WeaponLevelCat2;
 };

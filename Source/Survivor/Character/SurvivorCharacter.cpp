@@ -3,8 +3,7 @@
 #include "SurvivorCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "AbilitySystemComponent.h"
-#include "Survivor/Monster/MonsterBase.h"
-#include "Survivor/Ability/SurvivorBaseAbility.h"
+#include "Survivor/Actors/MonsterBase.h"
 #include "Survivor/Util/SurvivorDefine.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
@@ -77,10 +76,7 @@ void ASurvivorCharacter::PostInitializeComponents()
 	CharacterAttribute = NewObject<UCharacterAttribute>(this);
 	CharacterAttribute->InitHp(LevelConfig->BaseHp);
 	CharacterAttribute->InitMaxHp(LevelConfig->BaseHp);
-	CharacterAttribute->InitLevel(1);
-	CharacterAttribute->InitWeaponLevelCat1(1);
 	AbilitySystem->AddSpawnedAttribute(CharacterAttribute);
-	AbilitySystem->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(FSurvivorDefine::AttributeTagCharacter));
 
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UPawnBaseAttribute::GetHpAttribute()).AddUObject(this, &ASurvivorCharacter::OnHpChanged);
 	AbilitySystem->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLevelAttribute()).AddUObject(this, &ASurvivorCharacter::OnLevelUp);
@@ -95,24 +91,10 @@ void ASurvivorCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	// gain abilities on birth
-	for (TSubclassOf<USurvivorBaseAbility>& Ability : GainAbilitiesOnBirth)
+	for (TSubclassOf<UGameplayAbility>& Ability : GainAbilitiesOnBirth)
 	{
 		FGameplayAbilitySpecHandle Handle = AbilitySystem->GiveAbility(FGameplayAbilitySpec(Ability, 1, INDEX_NONE, this));
 		AbilitySystem->TryActivateAbility(Handle);
-	}
-}
-
-void ASurvivorCharacter::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-
-	for (TSubclassOf<USurvivorBaseAbility>& Ability : GainAbilitiesOnBirth)
-	{
-		USurvivorBaseAbility* DefaultObj = Ability.GetDefaultObject();
-		if (DefaultObj->IsPassive())
-		{
-			AbilitySystem->TryActivateAbilitiesByTag(DefaultObj->AbilityTags);
-		}
 	}
 }
 

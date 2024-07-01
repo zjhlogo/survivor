@@ -61,7 +61,7 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UTextBlock* TxtExternalDamageFactor;
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
-	UTextBlock* TxtBulletDamageFactor;
+	UTextBlock* TxtPhysicsDamageFactor;
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget, AllowPrivateAccess = "true"))
 	UTextBlock* TxtLaserDamageFactor;
 

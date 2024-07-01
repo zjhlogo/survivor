@@ -6,9 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
-#include "Survivor/Attributes/WeaponBulletAttribute.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
-#include "Survivor/Attributes/WeaponLaserAttribute.h"
 #include "Survivor/Systems/ConfigSystem.h"
 #include "Survivor/Config/CharacterLevelConfig.h"
 
@@ -41,9 +39,9 @@ void UIngameHudWidget::OnActorOwnerSet()
 		&UIngameHudWidget::OnInfoAttributeChanged);
 	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetExternalDamageFactorAttribute()).AddUObject(this,
 		&UIngameHudWidget::OnInfoAttributeChanged);
-	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UWeaponBulletAttribute::GetDamageFactorAttribute()).AddUObject(this,
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetPhysicsDamageFactorAttribute()).AddUObject(this,
 		&UIngameHudWidget::OnInfoAttributeChanged);
-	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UWeaponLaserAttribute::GetDamageFactorAttribute()).AddUObject(this,
+	AbilitySystemCom->GetGameplayAttributeValueChangeDelegate(UCharacterAttribute::GetLaserDamageFactorAttribute()).AddUObject(this,
 		&UIngameHudWidget::OnInfoAttributeChanged);
 }
 
@@ -116,11 +114,11 @@ void UIngameHudWidget::UpdateInfoView()
 	auto ExtDamageFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetExternalDamageFactorAttribute());
 	TxtExternalDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_ExtDamageFactor", "Ext Damage: {0}%"), ExtDamageFactor * 100.0f));
 
-	auto BulletDamageFactor = Asc->GetNumericAttribute(UWeaponBulletAttribute::GetDamageFactorAttribute());
-	TxtBulletDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_BulletFactor", "Bullet Damage: {0}%"),
-	                                             (1.0f + BulletDamageFactor + IntDamageFactor + ExtDamageFactor) * 100.0f));
+	auto PhysicsDamageFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetPhysicsDamageFactorAttribute());
+	TxtPhysicsDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_PhysicsDamage", "Physics Damage: {0}%"),
+	                                              (1.0f + PhysicsDamageFactor + IntDamageFactor + ExtDamageFactor) * 100.0f));
 
-	auto LaserDamageFactor = 0.0f;
-	TxtLaserDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_LaserFactor", "Laser Damage: {0}%"),
+	auto LaserDamageFactor = Asc->GetNumericAttribute(UCharacterAttribute::GetLaserDamageFactorAttribute());
+	TxtLaserDamageFactor->SetText(FText::Format(NSLOCTEXT("Survivor", "UIngameHudWidget_LaserDamage", "Laser Damage: {0}%"),
 	                                            (1.0f + LaserDamageFactor + IntDamageFactor + ExtDamageFactor) * 100.0f));
 }

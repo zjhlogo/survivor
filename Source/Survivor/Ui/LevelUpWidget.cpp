@@ -8,7 +8,6 @@
 #include "Components/TextBlock.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-#include "Survivor/Attributes/WeaponBulletAttribute.h"
 #include "Survivor/Attributes/CharacterAttribute.h"
 #include "Survivor/Config/UpgradeItemConfig.h"
 #include "Survivor/Systems/CharacterUpgradeSystem.h"
@@ -75,22 +74,22 @@ void ULevelUpWidget::OnButtonClicked(int32 Index)
 	}
 	else if (ItemConfig->Category == FName("2000"))
 	{
-		// upgrade bullet damage factor
-		CharacterAsc->ApplyModToAttribute(UWeaponBulletAttribute::GetDamageFactorAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
+		// upgrade physics damage factor
+		CharacterAsc->ApplyModToAttribute(UCharacterAttribute::GetPhysicsDamageFactorAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
 	}
-	else if (ItemConfig->Category == FName("2010"))
-	{
-		// upgrade bullet number of lines
-		CharacterAsc->ApplyModToAttribute(UWeaponBulletAttribute::GetNumLineAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
-	}
-	else if (ItemConfig->Category == FName("2020"))
-	{
-		// TODO: 
-	}
-	else if (ItemConfig->Category == FName("2030"))
-	{
-		// TODO: 
-	}
+	// else if (ItemConfig->Category == FName("2010"))
+	// {
+	// 	// upgrade laser number of lines
+	// 	CharacterAsc->ApplyModToAttribute(UCharacterAttribute::GetNumLineAttribute(), EGameplayModOp::Additive, ItemConfig->Param1);
+	// }
+	// else if (ItemConfig->Category == FName("2020"))
+	// {
+	// 	// TODO: 
+	// }
+	// else if (ItemConfig->Category == FName("2030"))
+	// {
+	// 	// TODO: 
+	// }
 
 	RemoveFromParent();
 }
